@@ -344,7 +344,7 @@ markdownlint:
   before_script:
     - mdl --version
   script:
-    - mdl --style all --warnings .
+    - mdl --style mdl_style.rb --warnings .
   only:
     variables:
       - $PREFLIGHT_MARKDOWNLINT == "true"
