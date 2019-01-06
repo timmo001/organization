@@ -29,6 +29,7 @@ variables:
   PREFLIGHT_MARKDOWNLINT: "true"
   PREFLIGHT_SHELLCHECK: "true"
   PREFLIGHT_YAMLLINT: "true"
+  PUBLISH_RELEASE_FILE: "false"
   PAGES_MKDOCS: "false"
   
   SNYK_ORG: "timmo001"
@@ -68,6 +69,7 @@ stages:
 # Generic preflight template
 .preflight: &preflight
   stage: preflight
+  dependencies: []
   tags:
     - preflight
 
@@ -109,6 +111,7 @@ stages:
 .scan: &scan
   stage: scan
   image: pipelinecomponents/snyk:edge
+  dependencies: []
   allow_failure: true
   script:
     - |
@@ -126,6 +129,7 @@ stages:
 .deploy: &deploy
   <<: *dind
   stage: deploy
+  dependencies: []
   before_script:
     - docker info
     - docker pull "registry.gitlab.com/${CI_PROJECT_PATH}/${ARCH}:${CI_COMMIT_SHA}"
@@ -168,6 +172,7 @@ stages:
 .manifest: &manifest
   <<: *dind
   stage: manifest
+  dependencies: []
   before_script:
     - mkdir -p ~/.docker
     - echo '{"experimental":"enabled"}' > ~/.docker/config.json
@@ -254,23 +259,6 @@ stages:
         "${DOCKER_HUB_ORG}/${SLUG}:${TAG}"
   tags:
     - manifest
-  except:
-    - /^(?!master).+@/
-
-# Generic publish template
-.publish: &publish
-  stage: publish
-  image:
-    name: hassioaddons/repository-updater:latest
-    entrypoint: [""]
-  script:
-    - |
-      repository-updater \
-        --token "${GITHUB_TOKEN}" \
-        --repository "${REPOSITORY}" \
-        --addon "${GITHUB_REPO}"
-  tags:
-    - publish
   except:
     - /^(?!master).+@/
 
@@ -592,10 +580,40 @@ manifest:edge:
   only:
     - master
 
+# Publish jobs
+release_file:
+  stage: publish
+  image: node:alpine
+  dependencies:
+    - build_app
+  script:
+    - apk --no-cache add curl zip jq
+    - yarn install && yarn cache clean
+    - yarn build --production
+    - zip -r home-panel-built.zip build
+    - |
+      curl \
+        -H "Authorization: token ${GITHUB_TOKEN}" -H \
+        -H "Accept: application/vnd.github.manifold-preview" \
+        -H "Content-Type: application/zip" \
+        --data-binary @home-panel-built.zip "https://uploads.github.com/repos/${GITHUB_REPO}/releases/$(curl https://api.github.com/repos/${GITHUB_REPO}/releases/latest | jq '.id')/assets?name=${SLUG}-built.zip"
+  tags:
+    - publish
+  only:
+    refs:
+      - tags
+      - triggers
+      - schedules
+    variables:
+      - $PUBLISH_RELEASE_FILE == "true"
+  except:
+    - /^(?!master).+@/
+
 # Pages jobs	
 mkdocs:
   stage: pages
   image: python:3.7.0-alpine3.8
+  dependencies: []
   script:
     - rm -f ~/.gitconfig && rm -Rf  ~/.ssh
     - apk add --no-cache git=2.18.1-r0 git-fast-import=2.18.1-r0 openssh-client=7.7_p1-r3 bash=4.4.19-r1
