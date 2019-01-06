@@ -30,6 +30,7 @@ variables:
   PREFLIGHT_SHELLCHECK: "true"
   PREFLIGHT_YAMLLINT: "true"
   PREFLIGHT_ESLINT: "true"
+  PREFLIGHT_STYLELINT: "true"
   PAGES_MKDOCS: "false"
   
   SNYK_ORG: "timmo001"
@@ -349,6 +350,15 @@ eslint:
   only:
     variables:
       - $PREFLIGHT_ESLINT == "true"
+
+stylelint:
+  <<: *preflight
+  image: pipelinecomponents/stylelint:latest
+  script:
+    - stylelint --color '**/*.css'
+  only:
+    variables:
+      - $PREFLIGHT_STYLELINT == "true"
 
 # Build Jobs
 build:armhf:

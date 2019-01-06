@@ -30,6 +30,7 @@ variables:
   PREFLIGHT_SHELLCHECK: "true"
   PREFLIGHT_YAMLLINT: "true"
   PREFLIGHT_ESLINT: "true"
+  PREFLIGHT_STYLELINT: "true"
   PUBLISH_RELEASE_FILE: "false"
   PAGES_MKDOCS: "false"
   
@@ -353,6 +354,15 @@ eslint:
   only:
     variables:
       - $PREFLIGHT_ESLINT == "true"
+
+stylelint:
+  <<: *preflight
+  image: pipelinecomponents/stylelint:latest
+  script:
+    - stylelint --color '**/*.css'
+  only:
+    variables:
+      - $PREFLIGHT_STYLELINT == "true"
 
 # Prebuild jobs	
 build_app:
