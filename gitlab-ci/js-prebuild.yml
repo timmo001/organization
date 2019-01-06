@@ -350,7 +350,7 @@ eslint:
   before_script:
     - touch dummy.js
   script:
-    - if eslint $( [[ -e .eslintrc.json ]] || echo '--no-eslintrc' ) --color .
+    - eslint $( [[ -e .eslintrc.json ]] || echo '--no-eslintrc' ) --color .
   only:
     variables:
       - $PREFLIGHT_ESLINT == "true"
