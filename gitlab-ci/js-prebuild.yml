@@ -29,6 +29,7 @@ variables:
   PREFLIGHT_MARKDOWNLINT: "true"
   PREFLIGHT_SHELLCHECK: "true"
   PREFLIGHT_YAMLLINT: "true"
+  PREFLIGHT_ESLINT: "true"
   PUBLISH_RELEASE_FILE: "false"
   PAGES_MKDOCS: "false"
   
@@ -341,6 +342,17 @@ markdownlint:
   only:
     variables:
       - $PREFLIGHT_MARKDOWNLINT == "true"
+
+eslint:
+  <<: *preflight
+  image: pipelinecomponents/eslint:latest
+  before_script:
+    - touch dummy.js
+  script:
+    - eslint $( [[ -e .eslintrc.json ]] || echo '--no-eslintrc' ) --color .
+  only:
+    variables:
+      - $PREFLIGHT_ESLINT == "true"
 
 # Prebuild jobs	
 build_app:
