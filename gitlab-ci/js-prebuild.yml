@@ -36,7 +36,7 @@ variables:
 
   SNYK_DOCKER: "true"
   SNYK_COMPOSER: "false"
-  SNYK_NPM: "true"
+  SNYK_NPM: "false"
   SNYK_PIP: "false"
   SNYK_RUBY: "false"
   SNYK_YARN: "true"
@@ -116,7 +116,7 @@ stages:
   script:
     - |
       find . \
-        -name ${SCANFILE}  -print0 | \
+        -name ${SCANFILE} -print0 | \
       xargs -0 -r -t -I {} \
       snyk test \
         --org="${SNYK_ORG}" \
@@ -347,14 +347,14 @@ build_app:
   stage: prebuild
   image: node:alpine
   script:
-    - yarn install && yarn cache clean	
-    - yarn run build --production	
+    - yarn install && yarn cache clean
+    - yarn run build --production
   tags:
-    - build	
+    - build
     - amd64	
   artifacts:
     paths:
-      - build/	
+      - build/
     expire_in: 1 week
 
 # Build Jobs
