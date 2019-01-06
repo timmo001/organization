@@ -342,7 +342,7 @@ markdownlint:
 
 eslint:
   <<: *preflight
-  image: pipelinecomponents/eslint:latest
+  image: timmo001/eslint-pipeline:latest
   before_script:
     - touch dummy.js
   script:
