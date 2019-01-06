@@ -345,6 +345,7 @@ eslint:
   image: pipelinecomponents/eslint:latest
   before_script:
     - touch dummy.js
+    - yarn add eslint-config-react-app eslint-plugin-react
   script:
     - eslint $( [[ -e .eslintrc.json ]] || echo '--no-eslintrc' ) --color .
   only:
