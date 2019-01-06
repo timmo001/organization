@@ -4,7 +4,7 @@ image: docker:latest
 variables:
   GITHUB_REPO: "timmo001/organization"
   SLUG: "organization"
-  TARGET: "organization"
+  TARGET: "."
 
   AARCH64: "true"
   AMD64: "true"
