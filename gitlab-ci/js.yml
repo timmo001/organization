@@ -31,6 +31,7 @@ variables:
   PREFLIGHT_YAMLLINT: "true"
   PREFLIGHT_ESLINT: "true"
   PREFLIGHT_STYLELINT: "true"
+  DEPLOY_DOCKER: "true"  
   PAGES_MKDOCS: "false"
   
   SNYK_ORG: "timmo001"
@@ -157,15 +158,19 @@ stages:
         "registry.gitlab.com/${CI_PROJECT_PATH}/${ARCH}:${CI_COMMIT_SHA}" \
         "${DOCKER_HUB_ORG}/${SLUG}:${ARCH}-${TAG}"
     - |
-      docker push \
-        "${DOCKER_HUB_ORG}/${SLUG}:${ARCH}-${TAG}"
+      if [ "${DEPLOY_DOCKER}" = "true" ]; then
+        docker push \
+          "${DOCKER_HUB_ORG}/${SLUG}:${ARCH}-${TAG}"
+      fi
     - |
       if [ "${LEGACY_TAGS}" = "true" ]; then
         docker tag \
           "registry.gitlab.com/${CI_PROJECT_PATH}/${ARCH}:${CI_COMMIT_SHA}" \
           "${DOCKER_HUB_ORG}/${SLUG}-${ARCH}:${TAG}"
-        docker push \
-          "${DOCKER_HUB_ORG}/${SLUG}-${ARCH}:${TAG}"
+        if [ "${DEPLOY_DOCKER}" = "true" ]; then
+          docker push \
+            "${DOCKER_HUB_ORG}/${SLUG}-${ARCH}:${TAG}"
+        fi
       fi
   tags:
     - docker
@@ -263,6 +268,9 @@ stages:
   tags:
     - docker
     - manifest
+  only:
+    variables:
+      - $DEPLOY_DOCKER == "true"
   except:
     - /^(?!master).+@/
 
