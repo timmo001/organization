@@ -31,6 +31,7 @@ variables:
   PREFLIGHT_YAMLLINT: "true"
   PREFLIGHT_ESLINT: "true"
   PREFLIGHT_STYLELINT: "true"
+  DEPLOY_DOCKER: "true"  
   PAGES_MKDOCS: "false"
   
   SNYK_ORG: "timmo001"
@@ -70,6 +71,7 @@ stages:
   stage: preflight
   dependencies: []
   tags:
+    - docker
     - preflight
 
 # Generic build template
@@ -104,6 +106,8 @@ stages:
     - |
       docker push \
         "registry.gitlab.com/${CI_PROJECT_PATH}/${ARCH}:${CI_COMMIT_SHA}"
+  tags:
+    - docker
 
 # Generic scan template
 .scan: &scan
@@ -121,6 +125,7 @@ stages:
         --project-name="${GITHUB_REPO}" \
         --file={}
   tags:
+    - docker
     - scan
 
 # Generic deploy template
@@ -130,16 +135,18 @@ stages:
   dependencies: []
   before_script:
     - docker info
-    - docker pull "registry.gitlab.com/${CI_PROJECT_PATH}/${ARCH}:${CI_COMMIT_SHA}"
     - |
       echo "${CI_JOB_TOKEN}" | docker login \
         --username gitlab-ci-token \
         --password-stdin \
         registry.gitlab.com
+    - docker pull "registry.gitlab.com/${CI_PROJECT_PATH}/${ARCH}:${CI_COMMIT_SHA}"
     - |
-      echo "${DOCKER_PASSWORD}" | docker login \
-        --username "${DOCKER_LOGIN}" \
-        --password-stdin
+      if [ "${DEPLOY_DOCKER}" = "true" ]; then
+        echo "${DOCKER_PASSWORD}" | docker login \
+          --username "${DOCKER_LOGIN}" \
+          --password-stdin
+      fi
   script:
     - |
       docker tag \
@@ -153,17 +160,22 @@ stages:
         "registry.gitlab.com/${CI_PROJECT_PATH}/${ARCH}:${CI_COMMIT_SHA}" \
         "${DOCKER_HUB_ORG}/${SLUG}:${ARCH}-${TAG}"
     - |
-      docker push \
-        "${DOCKER_HUB_ORG}/${SLUG}:${ARCH}-${TAG}"
+      if [ "${DEPLOY_DOCKER}" = "true" ]; then
+        docker push \
+          "${DOCKER_HUB_ORG}/${SLUG}:${ARCH}-${TAG}"
+      fi
     - |
       if [ "${LEGACY_TAGS}" = "true" ]; then
         docker tag \
           "registry.gitlab.com/${CI_PROJECT_PATH}/${ARCH}:${CI_COMMIT_SHA}" \
           "${DOCKER_HUB_ORG}/${SLUG}-${ARCH}:${TAG}"
-        docker push \
-          "${DOCKER_HUB_ORG}/${SLUG}-${ARCH}:${TAG}"
+        if [ "${DEPLOY_DOCKER}" = "true" ]; then
+          docker push \
+            "${DOCKER_HUB_ORG}/${SLUG}-${ARCH}:${TAG}"
+        fi
       fi
   tags:
+    - docker
     - deploy
 
 # Generic manifest template
@@ -256,6 +268,7 @@ stages:
       docker manifest push \
         "${DOCKER_HUB_ORG}/${SLUG}:${TAG}"
   tags:
+    - docker
     - manifest
   except:
     - /^(?!master).+@/
@@ -553,35 +566,50 @@ deploy:amd64:
 manifest:sha:
   <<: *manifest
   only:
-    - master
+    refs:
+      - master
+    variables:
+      - $DEPLOY_DOCKER == "true"
 
 manifest:version:
   <<: *manifest
   variables:
     TAG: "${CI_COMMIT_TAG}"
   only:
-    - /^v\d+\.\d+\.\d+(?:-(?:beta|rc)(?:(?:(?:\+|\.)?[a-zA-Z0-9]+)*)?)?$/
+    refs:
+      - /^v\d+\.\d+\.\d+(?:-(?:beta|rc)(?:(?:(?:\+|\.)?[a-zA-Z0-9]+)*)?)?$/
+    variables:
+      - $DEPLOY_DOCKER == "true"
 
 manifest:stable:
   <<: *manifest
   variables:
     TAG: latest
   only:
-    - /^v\d+\.\d+\.\d+(?:(?:(?:\+|\.)?[a-zA-Z0-9]+)*)?$/
+    refs:
+      - /^v\d+\.\d+\.\d+(?:(?:(?:\+|\.)?[a-zA-Z0-9]+)*)?$/
+    variables:
+      - $DEPLOY_DOCKER == "true"
 
 manifest:beta:
   <<: *manifest
   variables:
     TAG: beta
   only:
-    - /^v\d+\.\d+\.\d+(?:-(?:beta|rc)(?:(?:(?:\+|\.)?[a-zA-Z0-9]+)*)?)?$/
+    refs:
+      - /^v\d+\.\d+\.\d+(?:-(?:beta|rc)(?:(?:(?:\+|\.)?[a-zA-Z0-9]+)*)?)?$/
+    variables:
+      - $DEPLOY_DOCKER == "true"
 
 manifest:edge:
   <<: *manifest
   variables:
     TAG: edge
   only:
-    - master
+    refs:
+      - master
+    variables:
+      - $DEPLOY_DOCKER == "true"
 
 # Pages jobs	
 mkdocs:
