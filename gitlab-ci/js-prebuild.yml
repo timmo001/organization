@@ -588,7 +588,7 @@ deploy:amd64:
 manifest:sha:
   <<: *manifest
   only:
-    tags:
+    refs:
       - master
     variables:
       - $DEPLOY_DOCKER == "true"
@@ -598,7 +598,7 @@ manifest:version:
   variables:
     TAG: "${CI_COMMIT_TAG}"
   only:
-    tags:
+    refs:
       - /^v\d+\.\d+\.\d+(?:-(?:beta|rc)(?:(?:(?:\+|\.)?[a-zA-Z0-9]+)*)?)?$/
     variables:
       - $DEPLOY_DOCKER == "true"
@@ -608,7 +608,7 @@ manifest:stable:
   variables:
     TAG: latest
   only:
-    tags:
+    refs:
       - /^v\d+\.\d+\.\d+(?:(?:(?:\+|\.)?[a-zA-Z0-9]+)*)?$/
     variables:
       - $DEPLOY_DOCKER == "true"
@@ -618,7 +618,7 @@ manifest:beta:
   variables:
     TAG: beta
   only:
-    tags:
+    refs:
       - /^v\d+\.\d+\.\d+(?:-(?:beta|rc)(?:(?:(?:\+|\.)?[a-zA-Z0-9]+)*)?)?$/
     variables:
       - $DEPLOY_DOCKER == "true"
@@ -628,7 +628,7 @@ manifest:edge:
   variables:
     TAG: edge
   only:
-    tags:
+    refs:
       - master
     variables:
       - $DEPLOY_DOCKER == "true"
