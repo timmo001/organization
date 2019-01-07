@@ -588,35 +588,50 @@ deploy:amd64:
 manifest:sha:
   <<: *manifest
   only:
-    - master
+    tags:
+      - master
+    variables:
+      - $DEPLOY_DOCKER == "true"
 
 manifest:version:
   <<: *manifest
   variables:
     TAG: "${CI_COMMIT_TAG}"
   only:
-    - /^v\d+\.\d+\.\d+(?:-(?:beta|rc)(?:(?:(?:\+|\.)?[a-zA-Z0-9]+)*)?)?$/
+    tags:
+      - /^v\d+\.\d+\.\d+(?:-(?:beta|rc)(?:(?:(?:\+|\.)?[a-zA-Z0-9]+)*)?)?$/
+    variables:
+      - $DEPLOY_DOCKER == "true"
 
 manifest:stable:
   <<: *manifest
   variables:
     TAG: latest
   only:
-    - /^v\d+\.\d+\.\d+(?:(?:(?:\+|\.)?[a-zA-Z0-9]+)*)?$/
+    tags:
+      - /^v\d+\.\d+\.\d+(?:(?:(?:\+|\.)?[a-zA-Z0-9]+)*)?$/
+    variables:
+      - $DEPLOY_DOCKER == "true"
 
 manifest:beta:
   <<: *manifest
   variables:
     TAG: beta
   only:
-    - /^v\d+\.\d+\.\d+(?:-(?:beta|rc)(?:(?:(?:\+|\.)?[a-zA-Z0-9]+)*)?)?$/
+    tags:
+      - /^v\d+\.\d+\.\d+(?:-(?:beta|rc)(?:(?:(?:\+|\.)?[a-zA-Z0-9]+)*)?)?$/
+    variables:
+      - $DEPLOY_DOCKER == "true"
 
 manifest:edge:
   <<: *manifest
   variables:
     TAG: edge
   only:
-    - master
+    tags:
+      - master
+    variables:
+      - $DEPLOY_DOCKER == "true"
 
 # Publish jobs
 release_file:
