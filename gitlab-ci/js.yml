@@ -142,9 +142,11 @@ stages:
         registry.gitlab.com
     - docker pull "registry.gitlab.com/${CI_PROJECT_PATH}/${ARCH}:${CI_COMMIT_SHA}"
     - |
-      echo "${DOCKER_PASSWORD}" | docker login \
-        --username "${DOCKER_LOGIN}" \
-        --password-stdin
+      if [ "${DEPLOY_DOCKER}" = "true" ]; then
+        echo "${DOCKER_PASSWORD}" | docker login \
+          --username "${DOCKER_LOGIN}" \
+          --password-stdin
+      fi
   script:
     - |
       docker tag \
