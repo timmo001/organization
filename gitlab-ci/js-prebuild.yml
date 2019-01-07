@@ -73,6 +73,7 @@ stages:
   stage: preflight
   dependencies: []
   tags:
+    - docker
     - preflight
 
 # Generic build template
@@ -108,6 +109,8 @@ stages:
     - |
       docker push \
         "registry.gitlab.com/${CI_PROJECT_PATH}/${ARCH}:${CI_COMMIT_SHA}"
+  tags:
+    - docker
 
 # Generic scan template
 .scan: &scan
@@ -125,6 +128,7 @@ stages:
         --project-name="${GITHUB_REPO}" \
         --file={}
   tags:
+    - docker
     - scan
 
 # Generic deploy template
@@ -168,6 +172,7 @@ stages:
           "${DOCKER_HUB_ORG}/${SLUG}-${ARCH}:${TAG}"
       fi
   tags:
+    - docker
     - deploy
 
 # Generic manifest template
@@ -260,6 +265,7 @@ stages:
       docker manifest push \
         "${DOCKER_HUB_ORG}/${SLUG}:${TAG}"
   tags:
+    - docker
     - manifest
   except:
     - /^(?!master).+@/
