@@ -348,7 +348,7 @@ markdownlint:
   before_script:
     - mdl --version
   script:
-    - mdl --style $( [[ -e mdl_style.rb ]] || echo 'all' ) --warnings .
+    - mdl --style https://raw.githubusercontent.com/timmo001/organization/master/gitlab-ci/mdl-style.rb --warnings .
   only:
     variables:
       - $PREFLIGHT_MARKDOWNLINT == "true"
