@@ -665,7 +665,7 @@ release_file:
   dependencies:
     - build_app
   before_script:
-    - apk --no-cache add curl zip tar
+    - apk --no-cache add curl zip tar jq
   script:
     - zip -r ${SLUG}-built.zip build
     - |
