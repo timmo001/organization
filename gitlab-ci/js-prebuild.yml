@@ -99,6 +99,10 @@ stages:
     - docker pull "registry.gitlab.com/${CI_PROJECT_PATH}/${ARCH}:cache" || true
   script:
     - |
+      if [ "${TARGET}" != "." ]; then
+        mv build ${TARGET}
+      fi
+    - |
       docker build \
         --build-arg "BUILD_FROM=${FROM}" \
         --build-arg "BUILD_DATE=$(date +"%Y-%m-%dT%H:%M:%SZ")" \
