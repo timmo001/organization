@@ -31,6 +31,7 @@ variables:
   PREFLIGHT_YAMLLINT: "true"
   PREFLIGHT_ESLINT: "true"
   PREFLIGHT_STYLELINT: "true"
+  TEST: "false"
   DEPLOY_DOCKER: "true"
   PUBLISH_RELEASE_FILE: "false"
   PAGES_MKDOCS: "false"
@@ -54,6 +55,7 @@ stages:
   - preflight
   - prebuild
   - build
+  - test
   - scan
   - deploy
   - manifest
@@ -456,6 +458,21 @@ build:amd64:
     - build
     - amd64
 
+# Test jobs
+test:
+  <<: *dind
+  stage: test
+  image: node:alpine
+  dependencies:
+    - build_app
+  script:
+    - yarn test
+  only:
+    variables:
+      - $TEST == "true"
+  tags:
+    - test
+
 # Scan jobs
 snyk:docker:
   <<: *dind
@@ -464,6 +481,11 @@ snyk:docker:
   allow_failure: true
   before_script:
     - docker info
+    - |
+      echo "${CI_JOB_TOKEN}" | docker login \
+        --username gitlab-ci-token \
+        --password-stdin \
+        registry.gitlab.com
     - docker pull "registry.gitlab.com/${CI_PROJECT_PATH}/${SNYK_MONITOR_ARCH}:${CI_COMMIT_SHA}"
   script:
     - |
