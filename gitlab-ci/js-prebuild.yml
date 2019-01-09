@@ -460,7 +460,6 @@ build:amd64:
 
 # Test jobs
 test:
-  <<: *dind
   stage: test
   image: node:alpine
   dependencies:
