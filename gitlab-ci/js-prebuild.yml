@@ -662,15 +662,22 @@ release_file:
   dependencies:
     - build_app
   before_script:
-    - apk --no-cache add curl zip jq
+    - apk --no-cache add curl zip tar
   script:
-    - zip -r home-panel-built.zip build
+    - zip -r ${SLUG}-built.zip build
     - |
       curl \
         -H "Authorization: token ${GITHUB_TOKEN}" -H \
         -H "Accept: application/vnd.github.manifold-preview" \
         -H "Content-Type: application/zip" \
-        --data-binary @home-panel-built.zip "https://uploads.github.com/repos/${GITHUB_REPO}/releases/$(curl https://api.github.com/repos/${GITHUB_REPO}/releases/latest | jq '.id')/assets?name=${SLUG}-built.zip"
+        --data-binary @${SLUG}-built.zip "https://uploads.github.com/repos/${GITHUB_REPO}/releases/$(curl https://api.github.com/repos/${GITHUB_REPO}/releases/latest | jq '.id')/assets?name=${SLUG}-built.zip"
+    - tar -czf ${SLUG}-built.tar.gz build
+    - |
+      curl \
+        -H "Authorization: token ${GITHUB_TOKEN}" -H \
+        -H "Accept: application/vnd.github.manifold-preview" \
+        -H "Content-Type: application/tar+gzip" \
+        --data-binary @${SLUG}-built.tar.gz "https://uploads.github.com/repos/${GITHUB_REPO}/releases/$(curl https://api.github.com/repos/${GITHUB_REPO}/releases/latest | jq '.id')/assets?name=${SLUG}-built.tar.gz"
   tags:
     - publish
   only:
