@@ -121,6 +121,7 @@ stages:
 
 # Generic scan template
 .scan: &scan
+  <<: *dind
   stage: scan
   image: pipelinecomponents/snyk:edge
   dependencies: []
