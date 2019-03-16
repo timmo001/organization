@@ -35,7 +35,7 @@ variables:
   DEPLOY_DOCKER: "true"
   PUBLISH_RELEASE_FILE: "false"
   PAGES_MKDOCS: "false"
-  
+
   SNYK_ORG: "timmo001"
 
   SNYK_DOCKER: "true"
@@ -395,7 +395,7 @@ stylelint:
     variables:
       - $PREFLIGHT_STYLELINT == "true"
 
-# Prebuild jobs	
+# Prebuild jobs
 build_app:
   stage: prebuild
   image: node:alpine
@@ -404,7 +404,7 @@ build_app:
     - yarn run build --production
   tags:
     - build
-    - amd64	
+    - amd64
   artifacts:
     paths:
       - build/
@@ -702,7 +702,7 @@ release_file:
   except:
     - /^(?!master).+@/
 
-# Pages jobs	
+# Pages jobs
 mkdocs:
   stage: pages
   image: python:3.7.0-alpine3.8

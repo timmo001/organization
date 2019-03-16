@@ -34,7 +34,7 @@ variables:
   TEST: "false"
   DEPLOY_DOCKER: "true"
   PAGES_MKDOCS: "false"
-  
+
   SNYK_ORG: "timmo001"
 
   SNYK_DOCKER: "true"
@@ -641,7 +641,7 @@ manifest:edge:
     variables:
       - $DEPLOY_DOCKER == "true"
 
-# Pages jobs	
+# Pages jobs
 mkdocs:
   stage: pages
   image: python:3.7.0-alpine3.8
