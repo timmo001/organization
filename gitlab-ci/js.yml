@@ -110,6 +110,8 @@ stages:
         "registry.gitlab.com/${CI_PROJECT_PATH}/${ARCH}:${CI_COMMIT_SHA}"
   tags:
     - docker
+  variables:
+    BUILD_SHA: "${CI_COMMIT_SHA}"
 
 # Generic scan template
 .scan: &scan
