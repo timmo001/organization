@@ -504,6 +504,7 @@ snyk:docker:
   script:
     - |
       snyk test \
+        --exclude-base-image-vulns \
         --org="${SNYK_ORG}" \
         --project-name="${GITHUB_REPO}" \
         --docker "registry.gitlab.com/${CI_PROJECT_PATH}/${SNYK_MONITOR_ARCH}:${CI_COMMIT_SHA}" \
