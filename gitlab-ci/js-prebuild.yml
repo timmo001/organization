@@ -479,6 +479,8 @@ test:
   image: node:alpine
   dependencies:
     - build_app
+  before_script:
+    - apk --no-cache add grep
   script:
     - |
       for file in $(grep -IRl "\"test\":" --exclude-dir "node_modules" .); do
