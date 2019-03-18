@@ -480,7 +480,14 @@ test:
   dependencies:
     - build_app
   script:
-    - yarn test
+    - |
+      for file in $(grep -IRl "\"test\":" --exclude-dir "node_modules" .); do
+        ROOTPTH=$(pwd)
+        cd $(dirname "${file}")
+        yarn install
+        yarn test
+        cd $ROOTPTH
+      done
   only:
     variables:
       - $TEST == "true"
