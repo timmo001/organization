@@ -87,8 +87,8 @@ stages:
     - build_app
   before_script:
     - docker info
-    - echo "Commit tag: ${CI_COMMIT_TAG}"
-    - echo "Commit sha: ${CI_COMMIT_SHA}"
+    - echo "TAG:${CI_COMMIT_TAG}"
+    - echo "sha:${CI_COMMIT_SHA}"
     - |
       if [ "$(apk --print-arch)" = "amd64" ]; then
         docker run --rm --privileged hassioaddons/qemu-user-static:latest
