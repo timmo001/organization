@@ -296,8 +296,6 @@ stages:
   only:
     variables:
       - $DEPLOY_DOCKER == "true"
-  except:
-    - /^(?!master).+@/
 
 # Preflight jobs
 hadolint:
@@ -577,8 +575,6 @@ deploy:armhf:
       - /^v\d+\.\d+\.\d+(?:-(?:beta|rc)(?:(?:(?:\+|\.)?[a-zA-Z0-9]+)*)?)?$/
     variables:
       - $ARMHF == "true"
-  except:
-    - /^(?!master).+@/
 
 deploy:armv7:
   <<: *deploy
@@ -590,8 +586,6 @@ deploy:armv7:
       - /^v\d+\.\d+\.\d+(?:-(?:beta|rc)(?:(?:(?:\+|\.)?[a-zA-Z0-9]+)*)?)?$/
     variables:
       - $ARMV7 == "true"
-  except:
-    - /^(?!master).+@/
 
 deploy:aarch64:
   <<: *deploy
@@ -603,8 +597,6 @@ deploy:aarch64:
       - /^v\d+\.\d+\.\d+(?:-(?:beta|rc)(?:(?:(?:\+|\.)?[a-zA-Z0-9]+)*)?)?$/
     variables:
       - $AARCH64 == "true"
-  except:
-    - /^(?!master).+@/
 
 deploy:i386:
   <<: *deploy
@@ -616,8 +608,6 @@ deploy:i386:
       - /^v\d+\.\d+\.\d+(?:-(?:beta|rc)(?:(?:(?:\+|\.)?[a-zA-Z0-9]+)*)?)?$/
     variables:
       - $I386 == "true"
-  except:
-    - /^(?!master).+@/
 
 deploy:amd64:
   <<: *deploy
@@ -629,8 +619,6 @@ deploy:amd64:
       - /^v\d+\.\d+\.\d+(?:-(?:beta|rc)(?:(?:(?:\+|\.)?[a-zA-Z0-9]+)*)?)?$/
     variables:
       - $AMD64 == "true"
-  except:
-    - /^(?!master).+@/
 
 # Manifest jobs
 manifest:sha:
@@ -713,8 +701,6 @@ release_file:
       - schedules
     variables:
       - $PUBLISH_RELEASE_FILE == "true"
-  except:
-    - /^(?!master).+@/
 
 # Pages jobs
 mkdocs:
