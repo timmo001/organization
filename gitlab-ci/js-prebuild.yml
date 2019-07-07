@@ -30,6 +30,7 @@ variables:
   PREFLIGHT_SHELLCHECK: "true"
   PREFLIGHT_YAMLLINT: "true"
   PREFLIGHT_ESLINT: "true"
+  PREFLIGHT_TSLINT: "true"
   PREFLIGHT_STYLELINT: "true"
   TEST: "false"
   DEPLOY_DOCKER: "true"
@@ -390,6 +391,17 @@ eslint:
     variables:
       - $PREFLIGHT_ESLINT == "true"
 
+tslint:
+  <<: *preflight
+  image: pipelinecomponents/tslint:latest
+  before_script:
+    - touch dummy.ts
+  script:
+    - tslint -c tsconfig.json 'src/**/*.ts'
+  only:
+    variables:
+      - $PREFLIGHT_ESLINT == "true"
+
 stylelint:
   <<: *preflight
   image: pipelinecomponents/stylelint:latest
@@ -719,7 +731,7 @@ release_file:
 # Pages jobs
 mkdocs:
   stage: pages
-  image: python:3.8.0a2-alpine3.9
+  image: python:3.8.0b1-alpine3.10
   dependencies: []
   script:
     - rm -f ~/.gitconfig && rm -Rf  ~/.ssh
