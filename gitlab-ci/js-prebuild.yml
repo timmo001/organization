@@ -397,10 +397,10 @@ tslint:
   before_script:
     - touch dummy.ts
   script:
-    - tslint -c tsconfig.json 'src/**/*.ts'
+    - tslint -c tsconfig.json 'src/**/*.ts*'
   only:
     variables:
-      - $PREFLIGHT_ESLINT == "true"
+      - $PREFLIGHT_TSLINT == "true"
 
 stylelint:
   <<: *preflight
