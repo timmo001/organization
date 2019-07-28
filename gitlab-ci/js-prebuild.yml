@@ -50,6 +50,7 @@ variables:
   SNYK_MONITOR_ARCH: "amd64"
 
   DOCKER_DRIVER: overlay2
+  DOCKER_TLS_CERTDIR: ""
   DOCKER_HUB_ORG: timmo001
 
 stages:
