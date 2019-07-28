@@ -416,6 +416,10 @@ stylelint:
 build_app:
   stage: prebuild
   image: node:alpine
+  before_script:
+    - node -v
+    - npm -v
+    - yarn -v
   script:
     - yarn install && yarn cache clean
     - yarn run build --production
