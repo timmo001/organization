@@ -419,6 +419,8 @@ prettier:
   script:
     - npx prettier --check "src/**/*.ts*"
     - npx prettier --check "**/src/**/*.ts*"
+    - npx prettier --check "src/**/*.js*"
+    - npx prettier --check "**/src/**/*.js*"
   only:
     variables:
       - $PREFLIGHT_PRETTIER == "true"
