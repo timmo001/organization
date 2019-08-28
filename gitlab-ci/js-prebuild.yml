@@ -417,10 +417,15 @@ prettier:
   <<: *preflight
   image: node:alpine
   script:
-    - npx prettier --check "src/**/*.ts*"
-    - npx prettier --check "**/src/**/*.ts*"
-    - npx prettier --check "src/**/*.js*"
-    - npx prettier --check "**/src/**/*.js*"
+    - yarn global add prettier
+    - |
+      for file in $(find . -type f -name "*.ts*"); do
+        prettier --check $file
+      done
+    - |
+      for file in $(find . -type f -name "*.js*"); do
+        prettier --check $file
+      done
   only:
     variables:
       - $PREFLIGHT_PRETTIER == "true"
