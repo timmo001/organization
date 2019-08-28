@@ -31,7 +31,8 @@ variables:
   PREFLIGHT_YAMLLINT: "true"
   PREFLIGHT_ESLINT: "true"
   PREFLIGHT_TSLINT: "true"
-  PREFLIGHT_STYLELINT: "true"
+  PREFLIGHT_STYLELINT: "false"
+  PREFLIGHT_PRETTIER: "false"
   TEST: "false"
   DEPLOY_DOCKER: "true"
   PUBLISH_RELEASE_FILE: "false"
@@ -411,6 +412,16 @@ stylelint:
   only:
     variables:
       - $PREFLIGHT_STYLELINT == "true"
+
+prettier:
+  <<: *preflight
+  image: node:alpine
+  script:
+    - npx prettier --check "src/**/*.ts*"
+    - npx prettier --check "**/src/**/*.ts*"
+  only:
+    variables:
+      - $PREFLIGHT_PRETTIER == "true"
 
 # Prebuild jobs
 build_app:
