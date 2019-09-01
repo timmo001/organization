@@ -67,12 +67,9 @@ stages:
   - monitor
 
 cache:
-  untracked: true
-  key: "$CI_PROJECT_ID"
+  key: ${CI_COMMIT_REF_SLUG}
   paths:
     - node_modules/
-    - _site/vendor/
-    - .bundled/
     - .yarn
 
 # Generic DIND template
@@ -86,6 +83,7 @@ cache:
 # Generic preflight template
 .preflight: &preflight
   stage: preflight
+  cache: {}
   dependencies: []
   tags:
     - docker
@@ -447,8 +445,8 @@ build_app:
     - node -v
     - npm -v
     - yarn -v
-  script:
     - yarn install --pure-lockfile --cache-folder .yarn
+  script:
     - yarn run build --production
   tags:
     - build
