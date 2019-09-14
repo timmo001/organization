@@ -12,11 +12,11 @@ variables:
   ARMV7: "true"
   I386: "true"
 
-  AARCH64_BASE: "arm64v8/alpine:3.10.0"
-  AMD64_BASE: "amd64/alpine:3.10.0"
-  ARMHF_BASE: "arm32v6/alpine:3.10.0"
-  ARMV7_BASE: "arm32v7/alpine:3.10.0"
-  I386_BASE: "i386/alpine:3.10.0"
+  AARCH64_BASE: "arm64v8/alpine:3.10.2"
+  AMD64_BASE: "amd64/alpine:3.10.2"
+  ARMHF_BASE: "arm32v6/alpine:3.10.2"
+  ARMV7_BASE: "arm32v7/alpine:3.10.2"
+  I386_BASE: "i386/alpine:3.10.2"
 
   AARCH64_VARIANT: "v8"
   ARMHF_VARIANT: "v6"
