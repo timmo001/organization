@@ -88,6 +88,9 @@ cache:
   tags:
     - docker
     - preflight
+  except:
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /\[test\]/i
 
 # Generic build template
 .build: &build
