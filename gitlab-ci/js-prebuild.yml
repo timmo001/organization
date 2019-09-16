@@ -59,11 +59,11 @@ stages:
   - prebuild
   - test
   - build
-  - scan
   - deploy
   - manifest
   - publish
   - pages
+  - scan
   - monitor
 
 cache:
