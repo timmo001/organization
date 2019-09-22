@@ -83,8 +83,8 @@ cache:
 # Generic preflight template
 .preflight: &preflight
   stage: preflight
-  cache: {}
   dependencies: []
+  cache: {}
   tags:
     - docker
     - preflight
@@ -735,6 +735,7 @@ release_file:
   image: node:alpine
   dependencies:
     - build_app
+  cache: {}
   before_script:
     - apk --no-cache add curl zip tar jq
   script:
@@ -769,6 +770,7 @@ mkdocs:
   stage: pages
   image: python:3.8.0b1-alpine3.10
   dependencies: []
+  cache: {}
   script:
     - rm -f ~/.gitconfig && rm -Rf  ~/.ssh
     - apk add --no-cache git git-fast-import openssh-client bash
@@ -799,6 +801,7 @@ snyk:monitor:
   <<: *dind
   stage: monitor
   image: pipelinecomponents/snyk:edge
+  cache: {}
   allow_failure: true
   before_script:
     - docker info
