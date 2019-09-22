@@ -142,6 +142,7 @@ cache:
   stage: scan
   image: pipelinecomponents/snyk:edge
   dependencies: []
+  cache: {}
   allow_failure: true
   before_script:
     - docker info
@@ -169,6 +170,7 @@ cache:
   <<: *dind
   stage: deploy
   dependencies: []
+  cache: {}
   before_script:
     - docker info
     - |
@@ -219,6 +221,7 @@ cache:
   <<: *dind
   stage: manifest
   dependencies: []
+  cache: {}
   before_script:
     - mkdir -p ~/.docker
     - echo '{"experimental":"enabled"}' > ~/.docker/config.json
