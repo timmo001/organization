@@ -446,7 +446,7 @@ prettier:
 # Prebuild jobs
 build_app:
   stage: prebuild
-  image: node:alpine
+  image: node:current
   before_script:
     - node -v
     - npm -v
