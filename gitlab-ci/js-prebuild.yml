@@ -38,18 +38,6 @@ variables:
   PUBLISH_RELEASE_FILE: "false"
   PAGES_MKDOCS: "false"
 
-  SNYK_ORG: "timmo001"
-
-  SNYK_DOCKER: "true"
-  SNYK_COMPOSER: "false"
-  SNYK_NPM: "false"
-  SNYK_PIP: "false"
-  SNYK_RUBY: "false"
-  SNYK_YARN: "true"
-
-  SNYK_MONITOR: "true"
-  SNYK_MONITOR_ARCH: "amd64"
-
   DOCKER_DRIVER: overlay2
   DOCKER_TLS_CERTDIR: ""
   DOCKER_HUB_ORG: timmo001
@@ -63,7 +51,6 @@ stages:
   - manifest
   - publish
   - pages
-  - scan
   - monitor
 
 cache:
@@ -135,35 +122,6 @@ cache:
     - docker
   variables:
     BUILD_SHA: "${CI_COMMIT_SHA}"
-
-# Generic scan template
-.scan: &scan
-  <<: *dind
-  stage: scan
-  image: pipelinecomponents/snyk:edge
-  dependencies: []
-  cache: {}
-  allow_failure: true
-  before_script:
-    - docker info
-    - |
-      echo "${CI_JOB_TOKEN}" | docker login \
-        --username gitlab-ci-token \
-        --password-stdin \
-        registry.gitlab.com
-    - docker pull "registry.gitlab.com/${CI_PROJECT_PATH}/${SNYK_MONITOR_ARCH}:${CI_COMMIT_SHA}"
-  script:
-    - |
-      find . \
-        -name ${SCANFILE} -print0 | \
-      xargs -0 -r -t -I {} \
-      snyk test \
-        --org="${SNYK_ORG}" \
-        --project-name="${GITHUB_REPO}" \
-        --file={}
-  tags:
-    - docker
-    - scan
 
 # Generic deploy template
 .deploy: &deploy
@@ -545,74 +503,6 @@ build:amd64:
   tags:
     - build
     - amd64
-
-# Scan jobs
-snyk:docker:
-  <<: *dind
-  stage: scan
-  image: pipelinecomponents/snyk:edge
-  allow_failure: true
-  before_script:
-    - docker info
-    - |
-      echo "${CI_JOB_TOKEN}" | docker login \
-        --username gitlab-ci-token \
-        --password-stdin \
-        registry.gitlab.com
-    - docker pull "registry.gitlab.com/${CI_PROJECT_PATH}/${SNYK_MONITOR_ARCH}:${CI_COMMIT_SHA}"
-  script:
-    - |
-      snyk test \
-        --exclude-base-image-vulns \
-        --org="${SNYK_ORG}" \
-        --project-name="${GITHUB_REPO}" \
-        --docker "registry.gitlab.com/${CI_PROJECT_PATH}/${SNYK_MONITOR_ARCH}:${CI_COMMIT_SHA}" \
-        --file="${TARGET}/Dockerfile"
-  only:
-    variables:
-      - $SNYK_DOCKER == "true"
-  tags:
-    - scan
-
-snyk:yarn:
-  <<: *scan
-  variables:
-    SCANFILE: yarn.lock
-  only:
-    variables:
-      - $SNYK_YARN == "true"
-
-snyk:npm:
-  <<: *scan
-  variables:
-    SCANFILE: package-lock.json
-  only:
-    variables:
-      - $SNYK_NPM == "true"
-
-snyk:ruby:
-  <<: *scan
-  variables:
-    SCANFILE: Gemfile.lock
-  only:
-    variables:
-      - $SNYK_RUBY == "true"
-
-snyk:pip:
-  <<: *scan
-  variables:
-    SCANFILE: requirements.txt
-  only:
-    variables:
-      - $SNYK_PIP == "true"
-
-snyk:composer:
-  <<: *scan
-  variables:
-    SCANFILE: composer.lock
-  only:
-    variables:
-      - $SNYK_COMPOSER == "true"
 
 # Deploy jobs
 deploy:armhf:
