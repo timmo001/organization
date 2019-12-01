@@ -389,13 +389,12 @@ prettier:
   image: node:alpine
   script:
     - yarn global add prettier
+    - cd src
     - |
-      cd src
       for file in $(find . -type f -name "*.ts*"); do
         echo $file && prettier --check $file
       done
     - |
-      cd src
       for file in $(find . -type f -name "*.js*"); do
         echo $file && prettier --check $file
       done
