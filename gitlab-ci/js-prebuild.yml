@@ -391,11 +391,11 @@ prettier:
     - yarn global add prettier
     - |
       for file in $(find . -type f -name "*.ts*"); do
-        prettier --check $file
+        echo $file && prettier --check $file
       done
     - |
       for file in $(find . -type f -name "*.js*"); do
-        prettier --check $file
+        echo $file && prettier --check $file
       done
   only:
     variables:
