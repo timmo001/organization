@@ -1,22 +1,22 @@
 parameters:
-  hadolintVersion: 'v1.17.2'
-  path: '**/Dockerfile*'
+  path: "**/Dockerfile*"
+  version: "v1.17.2"
 
 jobs:
-- job: 'Hadolint'
-  pool:
-    vmImage: 'ubuntu-latest'
-  steps:
-  - script: docker pull hadolint/hadolint:${{ parameters.hadolintVersion }}
-    displayName: 'Install Hadolint'
-  - script: |
-      set -e
-      shopt -s globstar
-      for dockerfile in ${{ parameters.path }}
-      do
-        echo "Linting: $dockerfile"
-        docker run --rm -i \
-          -v $(pwd)/.hadolint.yaml:/.hadolint.yaml:ro \
-          hadolint/hadolint:$(versionHadolint) < "$dockerfile"
-      done
-    displayName: 'Run Hadolint'
+  - job: "Hadolint"
+    pool:
+      vmImage: "ubuntu-latest"
+    steps:
+      - script: docker pull hadolint/hadolint:${{ parameters.version }}
+        displayName: "Install Hadolint"
+      - script: |
+          set -e
+          shopt -s globstar
+          for dockerfile in ${{ parameters.path }}
+          do
+            echo "Linting: $dockerfile"
+            docker run --rm -i \
+              -v $(pwd)/.hadolint.yaml:/.hadolint.yaml:ro \
+              hadolint/hadolint:${{ parameters.version }} < "$dockerfile"
+          done
+        displayName: "Run Hadolint"
