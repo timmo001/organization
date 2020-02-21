@@ -6,10 +6,11 @@ jobs:
     pool:
       vmImage: "ubuntu-latest"
     steps:
+      - script: sudo apt install -y jsonlint
+        displayName: "Install"
       - script: |
-          sudo apt install -y jsonlint
-          for file in $(find $(path) -type f -name "*.json"); do
-            if ! jsonlint -q $file; then
+          for file in $(find ${{ parameters.path }} -type f -name "*.json"); do
+            if ! jsonlint-php -q $file; then
               export FAILED=1
             else
               echo "$file OK"
@@ -18,4 +19,4 @@ jobs:
           if [ "${FAILED}" = "1" ]; then
             exit 1
           fi
-        displayName: "Install and Run"
+        displayName: "Run"
