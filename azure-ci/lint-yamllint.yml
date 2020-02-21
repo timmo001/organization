@@ -11,6 +11,6 @@ jobs:
         displayName: "Install"
       - script: |
           docker run --rm -i \
-            -v ${{ parameters.path }}:/files:ro \
-            pipelinecomponents/yamllint:${{ parameters.version }} /files
+            -v ${{ parameters.path }}:/root/files:ro \
+            pipelinecomponents/yamllint:${{ parameters.version }} /root/files
         displayName: "Run"
