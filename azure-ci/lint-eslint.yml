@@ -12,5 +12,5 @@ jobs:
       - script: |
           docker run --rm -i \
             -v ${{ parameters.path }}:/root/files \
-            timmo001/eslint-pipeline:${{ parameters.version }} $( [[ -e /root/files/.eslintrc.json ]] || echo '--no-eslintrc' ) --color /root/files
+            timmo001/eslint-pipeline:${{ parameters.version }} eslint $( [[ -e /root/files/.eslintrc.json ]] || echo '--no-eslintrc' ) --color /root/files
         displayName: "Run"
