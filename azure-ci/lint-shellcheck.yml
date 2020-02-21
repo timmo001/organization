@@ -7,21 +7,17 @@ jobs:
     pool:
       vmImage: "ubuntu-latest"
     steps:
-      - script: docker pull pipelinecomponents/shellcheck:${{ parameters.version }}
-        displayName: "Install"
       - script: |
-          docker run --rm -i pipelinecomponents/shellcheck:${{ parameters.version }} --version
           find . -type f -print0 | xargs -0 sed -i 's:#!/usr/bin/with-contenv bash:#!/bin/bash:g'
-          docker run --rm -i pipelinecomponents/shellcheck:${{ parameters.version }} \
-            for file in $(grep -IRl "#\!\(/usr/bin/env \|/bin/\)" --exclude-dir ".git" "${{ parameters.path }}"); do
-              if ! shellcheck --external-sources $file; then
-                export FAILED=1
-                break
-              else
-                echo "$file OK"
-              fi
-            done
-            if [ "${FAILED}" = "1" ]; then
-              exit 1
+          for file in $(grep -IRl "#\!\(/usr/bin/env \|/bin/\)" --exclude-dir ".git" "${{ parameters.path }}"); do
+            if ! shellcheck --external-sources $file; then
+              export FAILED=1
+              break
+            else
+              echo "$file OK"
             fi
+          done
+          if [ "${FAILED}" = "1" ]; then
+            exit 1
+          fi
         displayName: "Run"
