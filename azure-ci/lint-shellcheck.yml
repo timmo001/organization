@@ -1,6 +1,5 @@
 parameters:
-  path: "**/Dockerfile*"
-  version: "latest"
+  path: "$(System.DefaultWorkingDirectory)"
 
 jobs:
   - job: "Shellcheck"
