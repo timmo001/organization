@@ -12,5 +12,5 @@ jobs:
       - script: |
           docker run --rm -i \
             -v $(path):ro \
-            pipelinecomponents/yamllint:${{ parameters.version }} $(path)
+            pipelinecomponents/yamllint:${{ parameters.version }} ${{ parameters.path }}
         displayName: "Run"
