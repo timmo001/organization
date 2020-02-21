@@ -2,7 +2,7 @@ parameters:
   path: "$(System.DefaultWorkingDirectory)"
 
 jobs:
-  - job: "Jsonlint"
+  - job: "JSONLint"
     pool:
       vmImage: "ubuntu-latest"
     steps:

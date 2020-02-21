@@ -2,7 +2,7 @@ parameters:
   path: "$(System.DefaultWorkingDirectory)"
 
 jobs:
-  - job: "Shellcheck"
+  - job: "ShellCheck"
     pool:
       vmImage: "ubuntu-latest"
     steps:

@@ -3,7 +3,7 @@ parameters:
   version: "latest"
 
 jobs:
-  - job: "Yamllint"
+  - job: "YAMLlint"
     pool:
       vmImage: "ubuntu-latest"
     steps:

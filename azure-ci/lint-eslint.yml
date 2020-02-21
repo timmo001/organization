@@ -1,0 +1,16 @@
+parameters:
+  path: "$(System.DefaultWorkingDirectory)"
+  version: "latest"
+
+jobs:
+  - job: "ESLint"
+    pool:
+      vmImage: "ubuntu-latest"
+    steps:
+      - script: docker pull timmo001/eslint-pipeline:${{ parameters.version }}
+        displayName: "Install"
+      - script: |
+          docker run --rm -i \
+            -v ${{ parameters.path }}:/root/files \
+            timmo001/eslint-pipeline:${{ parameters.version }} $( [[ -e /root/files/.eslintrc.json ]] || echo '--no-eslintrc' ) --color /root/files
+        displayName: "Run"
