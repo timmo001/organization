@@ -8,7 +8,7 @@ jobs:
       vmImage: "ubuntu-latest"
     steps:
       - script: docker pull hadolint/hadolint:${{ parameters.version }}
-        displayName: "Install Hadolint"
+        displayName: "Install"
       - script: |
           set -e
           shopt -s globstar
@@ -19,4 +19,4 @@ jobs:
               -v $(pwd)/.hadolint.yaml:/.hadolint.yaml:ro \
               hadolint/hadolint:${{ parameters.version }} < "$dockerfile"
           done
-        displayName: "Run Hadolint"
+        displayName: "Run"
