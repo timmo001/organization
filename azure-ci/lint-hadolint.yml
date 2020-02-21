@@ -1,0 +1,8 @@
+steps:
+  - script: sudo docker pull hadolint/hadolint:$(versionHadolint)
+    displayName: 'Install Hadolint'
+  - script: |
+      sudo docker run --rm -i \
+        -v $(pwd)/.hadolint.yaml:/.hadolint.yaml:ro \
+        hadolint/hadolint:$(versionHadolint) < Dockerfile
+    displayName: 'Run Hadolint'
