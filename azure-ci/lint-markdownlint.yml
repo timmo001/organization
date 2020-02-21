@@ -12,5 +12,5 @@ jobs:
       - script: |
           docker run --rm -i \
             -v ${{ parameters.path }}:/root/files \
-            pipelinecomponents/markdownlint:${{ parameters.version }} --style mdl_style.rb --warnings /root/files
+            pipelinecomponents/markdownlint:${{ parameters.version }} --style /root/files/mdl_style.rb --warnings /root/files
         displayName: "Run"
