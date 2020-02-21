@@ -1,3 +1,6 @@
+job: 'Hadolint'
+pool:
+  vmImage: 'ubuntu-latest'
 steps:
   - script: sudo docker pull hadolint/hadolint:$(versionHadolint)
     displayName: 'Install Hadolint'
