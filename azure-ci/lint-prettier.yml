@@ -6,12 +6,13 @@ jobs:
     pool:
       vmImage: "ubuntu-latest"
     steps:
+      - script: yarn global add prettier
+        displayName: "Install"
       - script: |
-          yarn global add prettier
           for file in $(find ${{ parameters.path }} -type f -name "*.ts*"); do
             echo $file && prettier --check $file
           done
           for file in $(find ${{ parameters.path }} -type f -name "*.js*"); do
             echo $file && prettier --check $file
           done
-        displayName: "Install and Run"
+        displayName: "Run"
