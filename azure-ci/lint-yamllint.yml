@@ -1,16 +1,13 @@
 parameters:
   path: "$(System.DefaultWorkingDirectory)"
-  version: "latest"
 
 jobs:
   - job: "YAMLlint"
     pool:
       vmImage: "ubuntu-latest"
     steps:
-      - script: docker pull pipelinecomponents/yamllint:${{ parameters.version }}
+      - script: sudo apt install yamllint
         displayName: "Install"
       - script: |
-          docker run --rm -i \
-            -v ${{ parameters.path }}:/root/files \
-            pipelinecomponents/yamllint:${{ parameters.version }} /root/files
+          yamllint ${{ parameters.path }}
         displayName: "Run"
