@@ -15,7 +15,7 @@ jobs:
             yarn
         displayName: 'Cache Yarn Packages'
       - script: |
-          yarn install --pure-lockfile --cache-folder .yarn
+          yarn install  --pure-lockfile --cache-folder $(yarnCachePath)
           sudo yarn global add eslint
         displayName: "Install"
       - script: |
