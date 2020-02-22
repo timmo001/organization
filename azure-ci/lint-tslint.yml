@@ -2,7 +2,7 @@ parameters:
   path: "$(System.DefaultWorkingDirectory)"
 
 jobs:
-  - job: "YAMLlint"
+  - job: "TSLint"
     pool:
       vmImage: "ubuntu-latest"
     steps:
