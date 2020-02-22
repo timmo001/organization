@@ -6,9 +6,9 @@ jobs:
     pool:
       vmImage: "ubuntu-latest"
     steps:
-      - script: yarn global add tslint typescript
+      - script: npm install --global tslint typescript
         displayName: "Install"
       - script: |
           touch ${{ parameters.path }}/dummy.ts
-          npx tslint -c ${{ parameters.path }}/tsconfig.json '${{ parameters.path }}/**/*.ts*'
+          tslint -c ${{ parameters.path }}/tsconfig.json '${{ parameters.path }}/**/*.ts*'
         displayName: "Install and Run"

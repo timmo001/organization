@@ -6,9 +6,9 @@ jobs:
     pool:
       vmImage: "ubuntu-latest"
     steps:
-      - script: yarn global add prettier
+      - script: npm install --global prettier
         displayName: "Install"
       - script: |
-          npx prettier --check ${{ parameters.path }}/**/*.ts*
-          npx prettier --check ${{ parameters.path }}/**/*.js*
+          prettier --check ${{ parameters.path }}/**/*.ts*
+          prettier --check ${{ parameters.path }}/**/*.js*
         displayName: "Run"
