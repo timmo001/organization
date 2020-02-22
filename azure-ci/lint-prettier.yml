@@ -1,0 +1,18 @@
+parameters:
+  path: "$(System.DefaultWorkingDirectory)"
+
+jobs:
+  - job: "Prettier"
+    pool:
+      vmImage: "ubuntu-latest"
+    steps:
+      - script: yarn global add prettier
+        displayName: "Install"
+      - script: |
+          for file in $(find ${{ parameters.path } -type f -name "*.ts*"); do
+            echo $file && prettier --check $file
+          done
+          for file in $(find ${{ parameters.path }} -type f -name "*.js*"); do
+            echo $file && prettier --check $file
+          done
+        displayName: "Run"
