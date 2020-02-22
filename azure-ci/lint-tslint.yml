@@ -10,5 +10,5 @@ jobs:
         displayName: "Install"
       - script: |
           touch ${{ parameters.path }}/dummy.ts
-          tslint -c ${{ parameters.path }}/tsconfig.json '${{ parameters.path }}/src/**/*.ts*'
+          npx tslint -c ${{ parameters.path }}/tsconfig.json '${{ parameters.path }}/src/**/*.ts*'
         displayName: "Install and Run"

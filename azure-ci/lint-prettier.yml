@@ -10,9 +10,9 @@ jobs:
         displayName: "Install"
       - script: |
           for file in $(find ${{ parameters.path }} -type f -name "*.ts*"); do
-            echo $file && prettier --check $file
+            echo $file && npx prettier --check $file
           done
           for file in $(find ${{ parameters.path }} -type f -name "*.js*"); do
-            echo $file && prettier --check $file
+            echo $file && npx `prettier --check $file
           done
         displayName: "Run"
