@@ -1,16 +1,13 @@
 parameters:
   path: "$(System.DefaultWorkingDirectory)"
-  version: "latest"
 
 jobs:
   - job: "ESLint"
     pool:
       vmImage: "ubuntu-latest"
     steps:
-      - script: docker pull timmo001/eslint-pipeline:${{ parameters.version }}
+      - script: sudo yarn global add eslint
         displayName: "Install"
       - script: |
-          docker run --rm -i \
-            -v ${{ parameters.path }}:/root/files \
-            timmo001/eslint-pipeline:${{ parameters.version }} eslint $( [[ -e /root/files/.eslintrc.json ]] || echo '--no-eslintrc' ) --color /root/files
+          eslint $( [[ -e ${{ parameters.path }}/.eslintrc.json ]] || echo '--no-eslintrc' ) --color ${{ parameters.path }}
         displayName: "Run"
