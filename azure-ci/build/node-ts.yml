@@ -1,15 +1,14 @@
 parameters:
   artifactName: "api"
-  artifactPath: "lib"
+  artifactPath: "$(Pipeline.Workspace)/api/lib"
   jobName: "Api"
   versionNode: "13.x"
-  workingDirectory: "api/"
+  workingDirectory: "$(Pipeline.Workspace)/api"
   yarnCachePath: "$(Pipeline.Workspace)/.yarn"
 
 jobs:
   - job: "Build_${{ parameters.jobName }}"
     displayName: "${{ parameters.jobName }}"
-    workingDirectory: "${{ parameters.workingDirectory }}"
     steps:
       - task: Cache@2
         inputs:
@@ -27,6 +26,7 @@ jobs:
           node --version
           yarn --version
           yarn install  --pure-lockfile --cache-folder ${{ parameters.yarnCachePath }}
+        workingDirectory: "${{ parameters.workingDirectory }}"  
         displayName: "Install"
       - script: |
           yarn run compile
