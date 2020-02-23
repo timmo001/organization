@@ -26,11 +26,13 @@ steps:
           "https://github.com/hassio-addons/qemu-user-static/releases/download/v4.2.0/qemu-arm-static.tar.gz" | \
           tar zxvf - -C "$(System.DefaultWorkingDirectory)/rootfs/usr/bin/"
       fi
+      docker pull "${{ parameters.dockerOrg }}/${{ parameters.dockerSlug }}:${{ parameters.buildArch }}-edge"
       docker build \
         --build-arg "BUILD_ARCH=${{ parameters.buildArch }}" \
         --build-arg "BUILD_DATE=$(date +"%Y-%m-%dT%H:%M:%SZ")" \
         --build-arg "BUILD_FROM=${{ parameters.buildBase }}" \
         --build-arg "BUILD_REF=$(Build.SourceVersion)" \
+        --cache-from "${{ parameters.dockerOrg }}/${{ parameters.dockerSlug }}:${{ parameters.buildArch }}-edge" \
         --tag "${{ parameters.dockerOrg }}/${{ parameters.dockerSlug }}:${{ parameters.buildArch }}-$(Build.SourceVersion)" \
         $(dockerTarget)
     displayName: "Build"
