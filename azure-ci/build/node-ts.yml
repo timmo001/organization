@@ -3,11 +3,13 @@ parameters:
   artifactPath: "lib"
   jobName: "Api"
   versionNode: "13.x"
+  workingDirectory: "api/"
   yarnCachePath: "$(Pipeline.Workspace)/.yarn"
 
 jobs:
   - job: "Build_${{ parameters.jobName }}"
     displayName: "${{ parameters.jobName }}"
+    workingDirectory: "${{ parameters.workingDirectory }}"
     steps:
       - task: Cache@2
         inputs:
