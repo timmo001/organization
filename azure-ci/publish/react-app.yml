@@ -1,0 +1,33 @@
+parameters:
+  dockerSlug: "organization"
+  githubToken: "token"
+  githubRepository: "timmo001/organization"
+
+jobs:
+  - job: "Build_App"
+    displayName: "App"
+    pool:
+      name: "Default"
+      vmImage: "ubuntu-latest"
+    steps:
+      - job: "Publish_App"
+        displayName: "App"
+        steps:
+          - script: sudo apt install jq
+            displayName: "Install Dependencies"
+          - script: |
+              zip -r $(parameters.dockerSlug)-built.zip build
+              |
+              curl \
+                -H "Authorization: token $(parameters.githubToken)" -H \
+                -H "Accept: application/vnd.github.manifold-preview" \
+                -H "Content-Type: application/zip" \
+                --data-binary @$(parameters.dockerSlug)-built.zip "https://uploads.github.com/repos/$(parameters.githubRepository)/releases/$(curl https://api.github.com/repos/$(parameters.githubRepository)/releases/latest | jq '.id')/assets?name=$(parameters.dockerSlug)-built.zip"
+              tar -czf $(parameters.dockerSlug)-built.tar.gz build
+              |
+              curl \
+                -H "Authorization: token $(parameters.githubToken)" -H \
+                -H "Accept: application/vnd.github.manifold-preview" \
+                -H "Content-Type: application/tar+gzip" \
+                --data-binary @$(parameters.dockerSlug)-built.tar.gz "https://uploads.github.com/repos/$(parameters.githubRepository)/releases/$(curl https://api.github.com/repos/$(parameters.githubRepository)/releases/latest | jq '.id')/assets?name=$(parameters.dockerSlug)-built.tar.gz"
+            displayName: Compress and Upload
