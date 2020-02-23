@@ -1,11 +1,12 @@
 parameters:
   artifactName: "app"
+  jobName: "App"
   versionNode: "13.x"
   yarnCachePath: "$(Pipeline.Workspace)/.yarn"
 
 jobs:
-  - job: "Build_App"
-    displayName: "App"
+  - job: "Build_${{ parameters.jobName }}"
+    displayName: "${{ parameters.jobName }}"
     steps:
       - task: Cache@2
         inputs:
