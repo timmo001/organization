@@ -26,11 +26,12 @@ jobs:
           node --version
           yarn --version
           yarn install  --pure-lockfile --cache-folder ${{ parameters.yarnCachePath }}
-        workingDirectory: "${{ parameters.workingDirectory }}"  
         displayName: "Install"
+        workingDirectory: "${{ parameters.workingDirectory }}"
       - script: |
           yarn run compile
         displayName: "Compile"
+        workingDirectory: "${{ parameters.workingDirectory }}"
       - task: PublishBuildArtifacts@1
         inputs:
           ArtifactName: "${{ parameters.artifactName }}"
