@@ -5,9 +5,6 @@ parameters:
 jobs:
   - job: "Build_App"
     displayName: "App"
-    pool:
-      name: "Default"
-      vmImage: "ubuntu-latest"
     steps:
       - task: Cache@2
         inputs:
