@@ -1,7 +1,8 @@
 parameters:
   buildArch: "amd64"
   buildBase: "amd64/alpine:3.11.3"
-  githubRepository: "organization"
+  dockerOrg: "timmo001"
+  dockerSlug: "organization"
 
 steps:
   - script: |
@@ -30,6 +31,6 @@ steps:
         --build-arg "BUILD_DATE=$(date +"%Y-%m-%dT%H:%M:%SZ")" \
         --build-arg "BUILD_FROM=${{ parameters.buildBase }}" \
         --build-arg "BUILD_REF=$(Build.SourceVersion)" \
-        --tag "${{ parameters.githubRepository }}-${{ parameters.buildArch }}:$(Build.SourceVersion)" \
+        --tag "${{ parameters.dockerOrg }}/${{ parameters.dockerSlug }}:${{ parameters.buildArch }}-$(Build.SourceVersion)" \
         $(dockerTarget)
     displayName: "Build"
