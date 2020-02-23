@@ -1,5 +1,6 @@
 parameters:
-  artifactName: "app"
+  artifactName: "api"
+  artifactPath: "lib"
   versionNode: "13.x"
   yarnCachePath: "$(Pipeline.Workspace)/.yarn"
 
@@ -25,11 +26,11 @@ jobs:
           yarn install  --pure-lockfile --cache-folder ${{ parameters.yarnCachePath }}
         displayName: "Install"
       - script: |
-          yarn run build --production
-        displayName: "Build"
+          yarn run compile
+        displayName: "Compile"
       - task: PublishBuildArtifacts@1
         inputs:
-          PathtoPublish: "build"
           ArtifactName: "${{ parameters.artifactName }}"
+          PathtoPublish: "${{ parameters.artifactPath }}"
           publishLocation: "Container"
         displayName: "Publish"
