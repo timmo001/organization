@@ -3,8 +3,6 @@ parameters:
 
 jobs:
   - job: "YAMLlint"
-    pool:
-      vmImage: "ubuntu-latest"
     steps:
       - script: sudo apt install yamllint
         displayName: "Install"

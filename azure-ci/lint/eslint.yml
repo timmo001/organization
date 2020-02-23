@@ -3,8 +3,6 @@ parameters:
 
 jobs:
   - job: "ESLint"
-    pool:
-      vmImage: "ubuntu-latest"
     steps:
       - task: Cache@2
         inputs:

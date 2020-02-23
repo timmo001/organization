@@ -4,8 +4,6 @@ parameters:
 
 jobs:
   - job: "Hadolint"
-    pool:
-      vmImage: "ubuntu-latest"
     steps:
       - script: docker pull hadolint/hadolint:${{ parameters.version }}
         displayName: "Install"

@@ -3,8 +3,6 @@ parameters:
 
 jobs:
   - job: "Prettier"
-    pool:
-      vmImage: "ubuntu-latest"
     steps:
       - script: sudo yarn global add prettier
         displayName: "Install"

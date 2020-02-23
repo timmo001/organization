@@ -4,8 +4,6 @@ parameters:
 
 jobs:
   - job: "Markdownlint"
-    pool:
-      vmImage: "ubuntu-latest"
     steps:
       - script: docker pull pipelinecomponents/markdownlint:${{ parameters.version }}
         displayName: "Install"
