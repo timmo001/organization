@@ -13,18 +13,18 @@ jobs:
           - script: sudo apt install jq
             displayName: "Install Dependencies"
           - script: |
-              zip -r $(parameters.dockerSlug)-built.zip build
+              zip -r ${{ parameters.dockerSlug }}-built.zip build
               |
               curl \
-                -H "Authorization: token $(parameters.githubToken)" -H \
+                -H "Authorization: token ${{ parameters.githubToken }}" -H \
                 -H "Accept: application/vnd.github.manifold-preview" \
                 -H "Content-Type: application/zip" \
-                --data-binary @$(parameters.dockerSlug)-built.zip "https://uploads.github.com/repos/$(parameters.githubRepository)/releases/$(curl https://api.github.com/repos/$(parameters.githubRepository)/releases/latest | jq '.id')/assets?name=$(parameters.dockerSlug)-built.zip"
-              tar -czf $(parameters.dockerSlug)-built.tar.gz build
+                --data-binary @${{ parameters.dockerSlug }}-built.zip "https://uploads.github.com/repos/${{ parameters.githubRepository }}/releases/$(curl https://api.github.com/repos/${{ parameters.githubRepository }}/releases/latest | jq '.id')/assets?name=${{ parameters.dockerSlug }}-built.zip"
+              tar -czf ${{ parameters.dockerSlug }}-built.tar.gz build
               |
               curl \
-                -H "Authorization: token $(parameters.githubToken)" -H \
+                -H "Authorization: token ${{ parameters.githubToken }}" -H \
                 -H "Accept: application/vnd.github.manifold-preview" \
                 -H "Content-Type: application/tar+gzip" \
-                --data-binary @$(parameters.dockerSlug)-built.tar.gz "https://uploads.github.com/repos/$(parameters.githubRepository)/releases/$(curl https://api.github.com/repos/$(parameters.githubRepository)/releases/latest | jq '.id')/assets?name=$(parameters.dockerSlug)-built.tar.gz"
+                --data-binary @${{ parameters.dockerSlug }}-built.tar.gz "https://uploads.github.com/repos/${{ parameters.githubRepository }}/releases/$(curl https://api.github.com/repos/${{ parameters.githubRepository }}/releases/latest | jq '.id')/assets?name=${{ parameters.dockerSlug }}-built.tar.gz"
             displayName: Compress and Upload
