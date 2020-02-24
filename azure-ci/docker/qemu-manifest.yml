@@ -2,6 +2,7 @@ parameters:
   buildId: "$(Build.SourceVersion)"
   dockerOrg: "timmo001"
   dockerSlug: "organization"
+  name: "Sha"
 
 steps:
   - script: |
@@ -20,4 +21,4 @@ steps:
       docker manifest annotate "${{ parameters.dockerOrg }}/${{ parameters.dockerSlug }}:${{ parameters.buildId }}" \
         "${{ parameters.dockerOrg }}/${{ parameters.dockerSlug }}:arm64v8-${{ parameters.buildId }}" --os linux --arch arm64 --variant armv8
       docker manifest push "${{ parameters.dockerOrg }}/${{ parameters.dockerSlug }}:${{ parameters.buildId }}"
-    displayName: 'Sha'
+    displayName: "${{ parameters.name }}"
