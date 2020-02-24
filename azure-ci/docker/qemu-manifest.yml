@@ -1,0 +1,23 @@
+parameters:
+  buildId: "$(Build.SourceVersion)"
+  dockerOrg: "timmo001"
+  dockerSlug: "organization"
+
+steps:
+  - script: |
+      export DOCKER_CLI_EXPERIMENTAL=enabled
+      docker manifest create "${{ parameters.dockerOrg }}/${{ parameters.dockerSlug }}:${{ parameters.buildId }}" \
+        "${{ parameters.dockerOrg }}/${{ parameters.dockerSlug }}:amd64-${{ parameters.buildId }}" \
+        "${{ parameters.dockerOrg }}/${{ parameters.dockerSlug }}:arm32v6-${{ parameters.buildId }}" \
+        "${{ parameters.dockerOrg }}/${{ parameters.dockerSlug }}:arm32v7-${{ parameters.buildId }}" \
+        "${{ parameters.dockerOrg }}/${{ parameters.dockerSlug }}:arm64v8-${{ parameters.buildId }}"
+      docker manifest annotate "${{ parameters.dockerOrg }}/${{ parameters.dockerSlug }}:${{ parameters.buildId }}" \
+        "${{ parameters.dockerOrg }}/${{ parameters.dockerSlug }}:amd64-${{ parameters.buildId }}" --os linux --arch amd64
+      docker manifest annotate"${{ parameters.dockerOrg }}/${{ parameters.dockerSlug }}:${{ parameters.buildId }"} \
+        "${{ parameters.dockerOrg }}/${{ parameters.dockerSlug }}:arm32v6-$(Build.SourceVersion)"${{ parameters.buildId }}" --os linux --arch arm --variant armv6
+      docker manifest annotate "${{ parameters.dockerOrg }}/${{ parameters.dockerSlug }}:${{ parameters.buildId }}" \
+        "${{ parameters.dockerOrg }}/${{ parameters.dockerSlug }}:arm32v7-${{ parameters.buildId }}" --os linux --arch arm --variant armv7
+      docker manifest annotate "${{ parameters.dockerOrg }}/${{ parameters.dockerSlug }}:${{ parameters.buildId }}" \
+        "${{ parameters.dockerOrg }}/${{ parameters.dockerSlug }}:arm64v8-${{ parameters.buildId }}" --os linux --arch arm64 --variant armv8
+      docker manifest push "${{ parameters.dockerOrg }}/${{ parameters.dockerSlug }}:${{ parameters.buildId }}"
+    displayName: 'Sha'
