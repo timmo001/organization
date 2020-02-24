@@ -1,5 +1,6 @@
 parameters:
   path: "$(System.DefaultWorkingDirectory)"
+  versionNode: "13.x"
 
 jobs:
   - job: "ESLint"
@@ -7,13 +8,17 @@ jobs:
       - task: Cache@2
         inputs:
           key: 'yarn | "$(Agent.OS)" | yarn.lock'
-          path: $(yarnCachePath)
+          path: ${{ parameters.yarnCachePath }}
           restoreKeys: |
             yarn | "$(Agent.OS)"
             yarn
-        displayName: 'Cache Yarn Packages'
+        displayName: "Cache Yarn Packages"
+      - task: NodeTool@0
+        inputs:
+          versionSpec: ${{ parameters.versionNode }}
+        displayName: "Install Node.js"
       - script: |
-          yarn install  --pure-lockfile --cache-folder $(yarnCachePath)
+          yarn install --pure-lockfile --cache-folder $(yarnCachePath)
           sudo yarn global add eslint
         displayName: "Install"
       - script: |
