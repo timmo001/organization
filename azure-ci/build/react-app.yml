@@ -16,6 +16,10 @@ jobs:
             yarn | "$(Agent.OS)"
             yarn
         displayName: "Cache Yarn Packages"
+      - task: NodeTool@0
+        inputs:
+          versionSpec: ${{ parameters.versionNode }}
+        displayName: "Install Node.js"
       - script: |
           node --version
           yarn --version
