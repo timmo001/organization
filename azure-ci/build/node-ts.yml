@@ -1,5 +1,5 @@
 parameters:
-  artifactName: "api"
+  artifactName: "lib"
   artifactPath: "$(System.DefaultWorkingDirectory)/api/lib"
   jobName: "Api"
   versionNode: "13.x"
