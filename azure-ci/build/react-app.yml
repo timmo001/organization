@@ -1,5 +1,5 @@
 parameters:
-  artifactName: "build"
+  artifactName: "public"
   jobName: "App"
   versionNode: "13.x"
   yarnCachePath: "$(Pipeline.Workspace)/.yarn"
