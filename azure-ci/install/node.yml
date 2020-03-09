@@ -6,7 +6,7 @@ parameters:
 
 jobs:
   - job: "Install_${{ parameters.jobName }}"
-    displayName: "${{ parameters.jobName }}"
+    displayName: "Install ${{ parameters.jobName }}"
     steps:
       - task: Cache@2
         inputs:
