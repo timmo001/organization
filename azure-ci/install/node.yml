@@ -4,25 +4,22 @@ parameters:
   workingDirectory: "$(System.DefaultWorkingDirectory)/api"
   yarnCachePath: "$(Pipeline.Workspace)/.yarn"
 
-jobs:
-  - job: "Install_${{ parameters.jobName }}"
-    displayName: "Install ${{ parameters.jobName }}"
-    steps:
-      - task: Cache@2
-        inputs:
-          key: 'yarn | "$(Agent.OS)" | yarn.lock'
-          path: ${{ parameters.yarnCachePath }}
-          restoreKeys: |
-            yarn | "$(Agent.OS)"
-            yarn
-        displayName: "Cache Yarn Packages"
-      - task: NodeTool@0
-        inputs:
-          versionSpec: ${{ parameters.versionNode }}
-        displayName: "Install Node.js"
-      - script: |
-          node --version
-          yarn --version
-          yarn install --pure-lockfile --cache-folder ${{ parameters.yarnCachePath }}
-        displayName: "Install"
-        workingDirectory: "${{ parameters.workingDirectory }}"
+steps:
+  - task: Cache@2
+    inputs:
+      key: 'yarn | "$(Agent.OS)" | yarn.lock'
+      path: ${{ parameters.yarnCachePath }}
+      restoreKeys: |
+        yarn | "$(Agent.OS)"
+        yarn
+    displayName: "Cache Yarn Packages"
+  - task: NodeTool@0
+    inputs:
+      versionSpec: ${{ parameters.versionNode }}
+    displayName: "Install Node.js"
+  - script: |
+      node --version
+      yarn --version
+      yarn install --pure-lockfile --cache-folder ${{ parameters.yarnCachePath }}
+    displayName: "Install"
+    workingDirectory: "${{ parameters.workingDirectory }}"
