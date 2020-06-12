@@ -18,6 +18,7 @@ jobs:
           versionSpec: ${{ parameters.versionNode }}
         displayName: "Install Node.js"
       - script: |
+          sudo npm -g install eslint
           yarn install
         displayName: "Install"
       - script: |
