@@ -25,7 +25,7 @@ jobs:
       - script: |
           node --version
           yarn --version
-          yarn install --pure-lockfile --cache-folder ${{ parameters.yarnCachePath }}
+          yarn install --cache-folder ${{ parameters.yarnCachePath }}
         displayName: "Install"
         workingDirectory: "${{ parameters.workingDirectory }}"
       - script: |
