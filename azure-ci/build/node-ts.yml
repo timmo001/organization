@@ -4,7 +4,7 @@ parameters:
   jobName: "Api"
   versionNode: "13.x"
   workingDirectory: "$(System.DefaultWorkingDirectory)/api"
-  yarnCachePath: "$(Pipeline.Workspace)/.yarn"
+  yarnCachePath: "$(Pipeline.Workspace)/.yarn/cache"
 
 jobs:
   - job: "Build_${{ parameters.jobName }}"
