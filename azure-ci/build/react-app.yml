@@ -2,7 +2,7 @@ parameters:
   artifactName: "build"
   jobName: "App"
   versionNode: "13.x"
-  yarnCachePath: "$(Pipeline.Workspace)/.yarn"
+  yarnCachePath: "$(Pipeline.Workspace)/.yarn/cache"
 
 jobs:
   - job: "Build_${{ parameters.jobName }}"
@@ -23,7 +23,7 @@ jobs:
       - script: |
           node --version
           yarn --version
-          yarn install --cache-folder ${{ parameters.yarnCachePath }}
+          yarn install
         displayName: "Install"
       - script: |
           yarn run build --production
