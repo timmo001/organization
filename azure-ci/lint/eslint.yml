@@ -1,6 +1,7 @@
 parameters:
   path: "$(System.DefaultWorkingDirectory)"
   versionNode: "13.x"
+  yarnCachePath: "$(Pipeline.Workspace)/.yarn/cache"
 
 jobs:
   - job: "ESLint"
