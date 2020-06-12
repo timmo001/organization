@@ -2,7 +2,7 @@ parameters:
   artifactName: "lib"
   artifactPath: "$(System.DefaultWorkingDirectory)/api/lib"
   jobName: "Api"
-  versionNode: "13.x"
+  versionNode: "14.x"
   workingDirectory: "$(System.DefaultWorkingDirectory)/api"
   yarnCachePath: "$(Pipeline.Workspace)/.yarn/cache"
 
