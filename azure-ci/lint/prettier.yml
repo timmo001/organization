@@ -4,7 +4,7 @@ parameters:
 jobs:
   - job: "Prettier"
     steps:
-      - script: npm -g install prettier
+      - script: sudo npm -g install prettier
         displayName: "Install"
       - script: |
           prettier --check ${{ parameters.path }}/**/*.ts*
