@@ -4,7 +4,7 @@ parameters:
 jobs:
   - job: "Prettier"
     steps:
-      - script: sudo yarn global add prettier
+      - script: npm -g install prettier
         displayName: "Install"
       - script: |
           prettier --check ${{ parameters.path }}/**/*.ts*
