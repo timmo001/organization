@@ -6,22 +6,10 @@ parameters:
 jobs:
   - job: 'ESLint'
     steps:
-      - task: Cache@2
-        inputs:
-          key: 'yarn | "$(Agent.OS)" | yarn.lock'
-          path: ${{ parameters.yarnCachePath }}
-          restoreKeys: |
-            yarn | "$(Agent.OS)"
-            yarn
-        displayName: 'Cache Yarn Packages'
-      - task: NodeTool@0
-        inputs:
-          versionSpec: ${{ parameters.versionNode }}
-        displayName: 'Install Node.js'
+      - template: ../setup/node.yml
       - script: |
           sudo npm -g install eslint
-          yarn install
-        displayName: 'Install'
+        displayName: 'Install ESLint'
       - script: |
           eslint $( [[ -e ${{ parameters.path }}/.eslintrc.json ]] || echo '--no-eslintrc' ) --color ${{ parameters.path }}
         displayName: 'Run'

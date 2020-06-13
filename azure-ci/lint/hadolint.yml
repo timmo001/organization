@@ -1,6 +1,6 @@
 parameters:
   path: '**/Dockerfile*'
-  version: 'v1.17.2'
+  version: 'latest'
 
 jobs:
   - job: 'Hadolint'

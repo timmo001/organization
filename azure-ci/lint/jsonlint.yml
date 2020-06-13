@@ -4,7 +4,7 @@ parameters:
 jobs:
   - job: 'JSONLint'
     steps:
-      - script: sudo apt install -y jsonlint
+      - script: sudo apt-get install -y jsonlint
         displayName: 'Install'
       - script: |
           for file in $(find ${{ parameters.path }} -type f -name "*.json"); do
