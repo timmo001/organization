@@ -8,6 +8,7 @@ jobs:
   - job: 'Build_${{ parameters.jobName }}'
     displayName: '${{ parameters.jobName }}'
     steps:
+      - template: azure-ci/setup/node.yml
       - script: |
           yarn run build --production
         displayName: 'Build'
