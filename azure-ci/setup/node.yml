@@ -4,7 +4,8 @@ parameters:
   yarnCachePath: "$(Pipeline.Workspace)/.yarn/cache"
 
 jobs:
-  - job: "Setup Node"
+  - job: "Setup_Node"
+    displayName: "Node"
     steps:
       - task: Cache@2
         inputs:
