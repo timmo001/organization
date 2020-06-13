@@ -1,0 +1,26 @@
+parameters:
+  versionNode: "14.x"
+  workingDirectory: "$(System.DefaultWorkingDirectory)"
+  yarnCachePath: "$(Pipeline.Workspace)/.yarn/cache"
+
+jobs:
+  - job: "Prettier"
+    steps:
+      - task: Cache@2
+        inputs:
+          key: 'yarn | "$(Agent.OS)" | yarn.lock'
+          path: ${{ parameters.yarnCachePath }}
+          restoreKeys: |
+            yarn | "$(Agent.OS)"
+            yarn
+        displayName: "Cache Yarn Packages"
+      - task: NodeTool@0
+        inputs:
+          versionSpec: ${{ parameters.versionNode }}
+        displayName: "Install Node.js"
+      - script: |
+          node --version
+          yarn --version
+          yarn install
+        displayName: "Install Packages"
+        workingDirectory: "${{ parameters.workingDirectory }}"
