@@ -1,36 +1,20 @@
 parameters:
-  artifactName: 'build'
-  jobName: 'App'
-  versionNode: '14.x'
-  yarnCachePath: '$(Pipeline.Workspace)/.yarn/cache'
+  artifactName: 'frontend'
+  artifactPath: '$(System.DefaultWorkingDirectory)/frontend/build'
+  jobName: 'Frontend'
+  workingDirectory: '$(System.DefaultWorkingDirectory)/frontend'
 
 jobs:
   - job: 'Build_${{ parameters.jobName }}'
     displayName: '${{ parameters.jobName }}'
     steps:
-      - task: Cache@2
-        inputs:
-          key: 'yarn | "$(Agent.OS)" | yarn.lock'
-          path: ${{ parameters.yarnCachePath }}
-          restoreKeys: |
-            yarn | "$(Agent.OS)"
-            yarn
-        displayName: 'Cache Yarn Packages'
-      - task: NodeTool@0
-        inputs:
-          versionSpec: ${{ parameters.versionNode }}
-        displayName: 'Install Node.js'
-      - script: |
-          node --version
-          yarn --version
-          yarn install
-        displayName: 'Install'
       - script: |
           yarn run build --production
         displayName: 'Build'
+        workingDirectory: '${{ parameters.workingDirectory }}'
       - task: PublishBuildArtifacts@1
         inputs:
-          PathtoPublish: 'build'
           ArtifactName: '${{ parameters.artifactName }}'
+          PathtoPublish: '${{ parameters.artifactPath }}'
           publishLocation: 'Container'
         displayName: 'Publish'
