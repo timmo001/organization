@@ -1,8 +1,8 @@
 parameters:
-  buildArch: "amd64"
-  buildBase: "amd64/alpine:3.11.3"
-  dockerOrg: "timmo001"
-  dockerSlug: "organization"
+  buildArch: 'amd64'
+  buildBase: 'amd64/alpine:3.11.3'
+  dockerOrg: 'timmo001'
+  dockerSlug: 'organization'
 
 steps:
   - script: |
@@ -35,4 +35,4 @@ steps:
         --cache-from "${{ parameters.dockerOrg }}/${{ parameters.dockerSlug }}:${{ parameters.buildArch }}-edge" \
         --tag "${{ parameters.dockerOrg }}/${{ parameters.dockerSlug }}:${{ parameters.buildArch }}-$(Build.SourceVersion)" \
         $(dockerTarget)
-    displayName: "Build"
+    displayName: 'Build'

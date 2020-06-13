@@ -1,12 +1,12 @@
 parameters:
-  artifactName: "build"
-  jobName: "App"
-  versionNode: "14.x"
-  yarnCachePath: "$(Pipeline.Workspace)/.yarn/cache"
+  artifactName: 'build'
+  jobName: 'App'
+  versionNode: '14.x'
+  yarnCachePath: '$(Pipeline.Workspace)/.yarn/cache'
 
 jobs:
-  - job: "Build_${{ parameters.jobName }}"
-    displayName: "${{ parameters.jobName }}"
+  - job: 'Build_${{ parameters.jobName }}'
+    displayName: '${{ parameters.jobName }}'
     steps:
       - task: Cache@2
         inputs:
@@ -15,22 +15,22 @@ jobs:
           restoreKeys: |
             yarn | "$(Agent.OS)"
             yarn
-        displayName: "Cache Yarn Packages"
+        displayName: 'Cache Yarn Packages'
       - task: NodeTool@0
         inputs:
           versionSpec: ${{ parameters.versionNode }}
-        displayName: "Install Node.js"
+        displayName: 'Install Node.js'
       - script: |
           node --version
           yarn --version
           yarn install
-        displayName: "Install"
+        displayName: 'Install'
       - script: |
           yarn run build --production
-        displayName: "Build"
+        displayName: 'Build'
       - task: PublishBuildArtifacts@1
         inputs:
-          PathtoPublish: "build"
-          ArtifactName: "${{ parameters.artifactName }}"
-          publishLocation: "Container"
-        displayName: "Publish"
+          PathtoPublish: 'build'
+          ArtifactName: '${{ parameters.artifactName }}'
+          publishLocation: 'Container'
+        displayName: 'Publish'

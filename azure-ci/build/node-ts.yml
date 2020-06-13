@@ -1,14 +1,14 @@
 parameters:
-  artifactName: "lib"
-  artifactPath: "$(System.DefaultWorkingDirectory)/api/lib"
-  jobName: "Api"
-  versionNode: "14.x"
-  workingDirectory: "$(System.DefaultWorkingDirectory)/api"
-  yarnCachePath: "$(Pipeline.Workspace)/.yarn/cache"
+  artifactName: 'lib'
+  artifactPath: '$(System.DefaultWorkingDirectory)/api/lib'
+  jobName: 'Api'
+  versionNode: '14.x'
+  workingDirectory: '$(System.DefaultWorkingDirectory)/api'
+  yarnCachePath: '$(Pipeline.Workspace)/.yarn/cache'
 
 jobs:
-  - job: "Build_${{ parameters.jobName }}"
-    displayName: "${{ parameters.jobName }}"
+  - job: 'Build_${{ parameters.jobName }}'
+    displayName: '${{ parameters.jobName }}'
     steps:
       - task: Cache@2
         inputs:
@@ -17,24 +17,24 @@ jobs:
           restoreKeys: |
             yarn | "$(Agent.OS)"
             yarn
-        displayName: "Cache Yarn Packages"
+        displayName: 'Cache Yarn Packages'
       - task: NodeTool@0
         inputs:
           versionSpec: ${{ parameters.versionNode }}
-        displayName: "Install Node.js"
+        displayName: 'Install Node.js'
       - script: |
           node --version
           yarn --version
           yarn install
-        displayName: "Install"
-        workingDirectory: "${{ parameters.workingDirectory }}"
+        displayName: 'Install'
+        workingDirectory: '${{ parameters.workingDirectory }}'
       - script: |
           yarn run compile
-        displayName: "Compile"
-        workingDirectory: "${{ parameters.workingDirectory }}"
+        displayName: 'Compile'
+        workingDirectory: '${{ parameters.workingDirectory }}'
       - task: PublishBuildArtifacts@1
         inputs:
-          ArtifactName: "${{ parameters.artifactName }}"
-          PathtoPublish: "${{ parameters.artifactPath }}"
-          publishLocation: "Container"
-        displayName: "Publish"
+          ArtifactName: '${{ parameters.artifactName }}'
+          PathtoPublish: '${{ parameters.artifactPath }}'
+          publishLocation: 'Container'
+        displayName: 'Publish'

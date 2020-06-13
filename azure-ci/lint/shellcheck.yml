@@ -1,8 +1,8 @@
 parameters:
-  path: "$(System.DefaultWorkingDirectory)"
+  path: '$(System.DefaultWorkingDirectory)'
 
 jobs:
-  - job: "ShellCheck"
+  - job: 'ShellCheck'
     steps:
       - script: |
           find . -type f -print0 | xargs -0 sed -i 's:#!/usr/bin/with-contenv bash:#!/bin/bash:g'
@@ -17,4 +17,4 @@ jobs:
           if [ "${FAILED}" = "1" ]; then
             exit 1
           fi
-        displayName: "Run"
+        displayName: 'Run'

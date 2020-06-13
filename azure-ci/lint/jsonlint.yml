@@ -1,11 +1,11 @@
 parameters:
-  path: "$(System.DefaultWorkingDirectory)"
+  path: '$(System.DefaultWorkingDirectory)'
 
 jobs:
-  - job: "JSONLint"
+  - job: 'JSONLint'
     steps:
       - script: sudo apt install -y jsonlint
-        displayName: "Install"
+        displayName: 'Install'
       - script: |
           for file in $(find ${{ parameters.path }} -type f -name "*.json"); do
             if ! jsonlint-php -q $file; then
@@ -17,4 +17,4 @@ jobs:
           if [ "${FAILED}" = "1" ]; then
             exit 1
           fi
-        displayName: "Run"
+        displayName: 'Run'

@@ -1,10 +1,10 @@
 parameters:
-  path: "$(System.DefaultWorkingDirectory)"
-  versionNode: "13.x"
-  yarnCachePath: "$(Pipeline.Workspace)/.yarn/cache"
+  path: '$(System.DefaultWorkingDirectory)'
+  versionNode: '13.x'
+  yarnCachePath: '$(Pipeline.Workspace)/.yarn/cache'
 
 jobs:
-  - job: "ESLint"
+  - job: 'ESLint'
     steps:
       - task: Cache@2
         inputs:
@@ -13,15 +13,15 @@ jobs:
           restoreKeys: |
             yarn | "$(Agent.OS)"
             yarn
-        displayName: "Cache Yarn Packages"
+        displayName: 'Cache Yarn Packages'
       - task: NodeTool@0
         inputs:
           versionSpec: ${{ parameters.versionNode }}
-        displayName: "Install Node.js"
+        displayName: 'Install Node.js'
       - script: |
           sudo npm -g install eslint
           yarn install
-        displayName: "Install"
+        displayName: 'Install'
       - script: |
           eslint $( [[ -e ${{ parameters.path }}/.eslintrc.json ]] || echo '--no-eslintrc' ) --color ${{ parameters.path }}
-        displayName: "Run"
+        displayName: 'Run'

@@ -1,17 +1,17 @@
 parameters:
-  dockerSlug: "organization"
-  githubToken: "token"
-  githubRepository: "timmo001/organization"
+  dockerSlug: 'organization'
+  githubToken: 'token'
+  githubRepository: 'timmo001/organization'
 
 jobs:
-  - job: "Build_App"
-    displayName: "App"
+  - job: 'Build_App'
+    displayName: 'App'
     steps:
-      - job: "Publish_App"
-        displayName: "App"
+      - job: 'Publish_App'
+        displayName: 'App'
         steps:
           - script: sudo apt install jq
-            displayName: "Install Dependencies"
+            displayName: 'Install Dependencies'
           - script: |
               zip -r ${{ parameters.dockerSlug }}-built.zip build
               |
