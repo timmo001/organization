@@ -6,7 +6,7 @@ jobs:
     steps:
       - script: |
           find . -type f -print0 | xargs -0 sed -i 's:#!/usr/bin/with-contenv bash:#!/bin/bash:g'
-          for file in $(grep -IRl "#\!\(/usr/bin/env \|/bin/\)" --exclude-dir ".git" --exclude-dir ".yarn" "${{ parameters.path }}"); do
+          for file in $(grep -IRl "#\!\(/usr/bin/env \|/bin/\)" --exclude-dir ".git" --exclude-dir ".yarn" --exclude-dir ".vscode" "${{ parameters.path }}"); do
             if ! shellcheck --external-sources $file; then
               export FAILED=1
               break
