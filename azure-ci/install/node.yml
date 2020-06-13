@@ -1,7 +1,7 @@
 parameters:
   jobName: "Api"
   versionNode: "14.x"
-  workingDirectory: "$(System.DefaultWorkingDirectory)/api"
+  workingDirectory: "$(System.DefaultWorkingDirectory)"
   yarnCachePath: "$(Pipeline.Workspace)/.yarn/cache"
 
 steps:
@@ -20,6 +20,6 @@ steps:
   - script: |
       node --version
       yarn --version
-      yarn install --pure-lockfile --cache-folder ${{ parameters.yarnCachePath }}
+      yarn install
     displayName: "Install"
     workingDirectory: "${{ parameters.workingDirectory }}"
