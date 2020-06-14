@@ -1,5 +1,5 @@
 parameters:
-  artifactName: 'frontend'
+  artifactName: 'frontend-build'
   artifactPath: '$(System.DefaultWorkingDirectory)/frontend/build'
   jobName: 'Frontend'
   workingDirectory: '$(System.DefaultWorkingDirectory)/frontend'
