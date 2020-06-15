@@ -1,4 +1,5 @@
 parameters:
+  packages: 'eslint'
   path: '$(System.DefaultWorkingDirectory)'
   versionNode: '13.x'
   yarnCachePath: '$(Pipeline.Workspace)/.yarn/cache'
@@ -8,8 +9,8 @@ jobs:
     steps:
       - template: ../setup/node.yml
       - script: |
-          sudo npm -g install eslint
-        displayName: 'Install ESLint'
+          sudo npm -g install ${{ parameters.path }}
+        displayName: 'Install'
       - script: |
           eslint $( [[ -e ${{ parameters.path }}/.eslintrc.json ]] || echo '--no-eslintrc' ) --color ${{ parameters.path }}
         displayName: 'Run'
