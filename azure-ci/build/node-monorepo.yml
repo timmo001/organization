@@ -1,0 +1,33 @@
+parameters:
+  backendArtifactName: 'backend'
+  backendArtifactPath: '$(System.DefaultWorkingDirectory)/backend/lib'
+  backendWorkingDirectory: '$(System.DefaultWorkingDirectory)/backend'
+  frontendArtifactName: 'frontend-build'
+  frontendArtifactPath: '$(System.DefaultWorkingDirectory)/frontend/build'
+  frontendWorkingDirectory: '$(System.DefaultWorkingDirectory)/frontend'
+
+jobs:
+  - job: 'Build_Monorepo'
+    displayName: 'Build'
+    steps:
+      - template: ../setup/node.yml
+      - script: |
+          yarn run compile
+        displayName: 'Compile Backend'
+        workingDirectory: '${{ parameters.backendWorkingDirectory }}'
+      - script: |
+          yarn run build --production
+        displayName: 'Build Frontend'
+        workingDirectory: '${{ parameters.frontendWorkingDirectory }}'
+      - task: PublishBuildArtifacts@1
+        inputs:
+          ArtifactName: '${{ parameters.backendArtifactName }}'
+          PathtoPublish: '${{ parameters.backendArtifactPath }}'
+          publishLocation: 'Container'
+        displayName: 'Publish Backend'
+      - task: PublishBuildArtifacts@1
+        inputs:
+          ArtifactName: '${{ parameters.frontendArtifactName }}'
+          PathtoPublish: '${{ parameters.frontendArtifactPath }}'
+          publishLocation: 'Container'
+        displayName: 'Publish Frontend'
