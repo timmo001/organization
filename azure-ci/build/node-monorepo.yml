@@ -1,5 +1,5 @@
 parameters:
-  backendArtifactName: 'backend'
+  backendArtifactName: 'backend-lib'
   backendArtifactPath: '$(System.DefaultWorkingDirectory)/backend/lib'
   backendWorkingDirectory: '$(System.DefaultWorkingDirectory)/backend'
   frontendArtifactName: 'frontend-build'
