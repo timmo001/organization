@@ -2,6 +2,7 @@ parameters:
   backendArtifactName: 'backend-lib'
   backendArtifactPath: '$(System.DefaultWorkingDirectory)/backend/lib'
   backendWorkingDirectory: '$(System.DefaultWorkingDirectory)/backend'
+  cache: true
   frontendArtifactName: 'frontend-build'
   frontendArtifactPath: '$(System.DefaultWorkingDirectory)/frontend/build'
   frontendWorkingDirectory: '$(System.DefaultWorkingDirectory)/frontend'
@@ -11,6 +12,8 @@ jobs:
     displayName: 'Build'
     steps:
       - template: ../setup/node.yml
+        parameters:
+          cache: ${{ parameters.cache }}
       - script: |
           yarn run compile
         displayName: 'Compile Backend'

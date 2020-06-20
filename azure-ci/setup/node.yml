@@ -1,10 +1,12 @@
 parameters:
+  cache: true
   versionNode: '14.x'
   workingDirectory: '$(System.DefaultWorkingDirectory)'
   yarnCachePath: '$(Pipeline.Workspace)/.yarn/cache'
 
 steps:
   - task: Cache@2
+    condition: eq('${{ parameters.cache }}', true))
     inputs:
       key: 'yarn | "$(Agent.OS)" | yarn.lock'
       path: ${{ parameters.yarnCachePath }}
