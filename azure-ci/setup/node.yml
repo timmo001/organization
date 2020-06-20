@@ -6,7 +6,7 @@ parameters:
 
 steps:
   - task: Cache@2
-    condition: eq('${{ parameters.cache }}', true))
+    condition: eq(${{ parameters.cache }}, true)
     inputs:
       key: 'yarn | "$(Agent.OS)" | yarn.lock'
       path: ${{ parameters.yarnCachePath }}
