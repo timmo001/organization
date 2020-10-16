@@ -20,6 +20,6 @@ steps:
   - script: |
       node --version
       yarn --version
-      yarn install --frozen-lockfile
+      yarn install
     displayName: 'Install Packages'
     workingDirectory: '${{ parameters.workingDirectory }}'
