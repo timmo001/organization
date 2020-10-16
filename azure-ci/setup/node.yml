@@ -2,7 +2,7 @@ parameters:
   cache: true
   versionNode: '14.x'
   workingDirectory: '$(System.DefaultWorkingDirectory)'
-  yarnCachePath: '$(Pipeline.Workspace)/.yarn'
+  yarnCachePath: '/home/vsts/.cache/yarn'
 
 steps:
   - task: Cache@2
