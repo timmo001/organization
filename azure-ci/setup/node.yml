@@ -2,9 +2,12 @@ parameters:
   cache: true
   versionNode: '14.x'
   workingDirectory: '$(System.DefaultWorkingDirectory)'
-  yarnCachePath: '/home/vsts/.cache/yarn'
+  yarnCachePath: '$(System.DefaultWorkingDirectory).yarn'
 
 steps:
+  - script: |
+      mkdir -p ${{ parameters.yarnCachePath }}
+    displayName: 'Create cache path'
   - task: Cache@2
     condition: eq(${{ parameters.cache }}, true)
     inputs:
