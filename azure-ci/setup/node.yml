@@ -2,18 +2,17 @@ parameters:
   cache: true
   versionNode: '14.x'
   workingDirectory: '$(System.DefaultWorkingDirectory)'
-  yarnCachePath: '$(Pipeline.Workspace)/.yarn/cache'
+  yarnCachePath: '$(Pipeline.Workspace)/.yarn'
 
 steps:
   - task: Cache@2
     condition: eq(${{ parameters.cache }}, true)
     inputs:
       key: 'yarn | "$(Agent.OS)" | yarn.lock'
-      path: ${{ parameters.yarnCachePath }}
       restoreKeys: |
-        yarn | "$(Agent.OS)"
-        yarn
-    displayName: 'Cache Yarn Packages'
+         yarn | "$(Agent.OS)"
+      path: ${{ parameters.yarnCachePath }}
+    displayName: Cache Yarn packages
   - task: NodeTool@0
     inputs:
       versionSpec: ${{ parameters.versionNode }}
@@ -21,6 +20,6 @@ steps:
   - script: |
       node --version
       yarn --version
-      yarn install
+      yarn install --frozen-lockfile
     displayName: 'Install Packages'
     workingDirectory: '${{ parameters.workingDirectory }}'
