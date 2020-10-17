@@ -10,7 +10,7 @@ jobs:
     steps:
       - template: ../setup/node.yml
       - script: |
-          yarn run build --production
+          INLINE_RUNTIME_CHUNK=false yarn run build --production
         displayName: 'Build'
         workingDirectory: '${{ parameters.workingDirectory }}'
       - task: PublishBuildArtifacts@1
