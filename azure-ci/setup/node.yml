@@ -2,7 +2,7 @@ parameters:
   cache: true
   versionNode: '14.x'
   workingDirectory: '$(System.DefaultWorkingDirectory)'
-  yarnCachePath: '$(System.DefaultWorkingDirectory).yarn'
+  yarnCachePath: '$(Pipeline.Workspace)/.yarn'
 
 steps:
   - script: |
