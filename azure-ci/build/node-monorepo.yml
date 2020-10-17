@@ -19,7 +19,7 @@ jobs:
         displayName: 'Compile Backend'
         workingDirectory: '${{ parameters.backendWorkingDirectory }}'
       - script: |
-          yarn run build --production
+          INLINE_RUNTIME_CHUNK=false yarn run build --production
         displayName: 'Build Frontend'
         workingDirectory: '${{ parameters.frontendWorkingDirectory }}'
       - task: PublishBuildArtifacts@1
